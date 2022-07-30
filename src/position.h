@@ -25,6 +25,7 @@ class Position {
         bool isValidQueenMove(Move move);
         bool isValidKingMove(Move move);
         bool isValidPawnMove(Move move);
+        bool standardChecks(std::string curPos, std::string newPos, Move move);
         int turn;
         int (*board)[8];
         static const int p = 1;

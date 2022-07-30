@@ -86,49 +86,156 @@ bool Position::isValid(Move move) {
     return true;
 }
 
-bool isValidKnightMove(Move move) {
+bool Position::isValidKnightMove(Move move) {
     std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
-    int newColIndex = move.getColVal(newPos.substr(1, 1));
-    int newRowIndex = std::stoi(newPos.substr(0, 1));
 
-    std::cout << newRowIndex << std::endl;
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+        return false;
 
     return true;
 }
 
-bool isValidRookMove(Move move) {
-    std::string curPos = move.getCurPos();
+bool Position::isValidRookMove(Move move) {
+std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+        return false;
+
     return true;
 }
 
-bool isValidBishopMove(Move move) {
-    std::string curPos = move.getCurPos();
+bool Position::isValidBishopMove(Move move) {
+std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+        return false;
+
     return true;
 }
 
-bool isValidQueenMove(Move move) {
+bool Position::isValidQueenMove(Move move) {
     std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+        return false;
+
     return true;
 }
 
-bool isValidKingMove(Move move) {
+bool Position::isValidKingMove(Move move) {
     std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+        return false;
+
     return true;
 }
 
-bool isValidPawnMove(Move move) {
+bool Position::isValidPawnMove(Move move) {
     std::string curPos = move.getCurPos();
     std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (!standardChecks(curPos, newPos, move))
+        return false;
+
+    int rowDiff = std::abs(curCol - newCol);
+    int colDiff = std::abs(curRow - newRow);
+
+    if ((rowDiff == 1 && colDiff != 1) || (rowDiff == 1 && colDiff != 0))
+        return false;
+
     return true;
 }
 
-int main() {
-    Move test("a", "1", "c", "3", "n");
-    isValidKnightMove(test);
-    return 0;
+bool Position::standardChecks(std::string curPos, std::string newPos, Move move) {
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int curRow = std::stoi(curPos.substr(0, 1));
+
+    int newCol = move.getColVal(newPos.substr(1, 1));
+    int newRow = std::stoi(newPos.substr(0, 1));
+
+    if (newCol < 1 || newCol > 8)
+        return false;
+    
+    if (newRow < 1 || newRow > 8)
+        return false;
+
+    int newColIndex = newCol - 1;
+    int newRowIndex = newRow - 1;
+
+    if (board[newRowIndex][newColIndex] != 0)
+        return false;
+
+    return true;
 }
