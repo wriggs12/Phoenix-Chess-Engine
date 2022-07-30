@@ -5,6 +5,7 @@
  ****************************************************************************/
 #include <vector>
 #include <iostream>
+#include "move.cpp"
 
 #ifndef POSITION_H
 #define POSITION_H
@@ -14,10 +15,17 @@ class Position {
         Position();
         Position(int b[8][8]);
         void reset();
-        bool makeMove(std::string move);
+        bool makeMove(Move move);
 
     private:
-        bool isValid(std::string move);
+        bool isValid(Move move);
+        bool isValidKnightMove(Move move);
+        bool isValidRookMove(Move move);
+        bool isValidBishopMove(Move move);
+        bool isValidQueenMove(Move move);
+        bool isValidKingMove(Move move);
+        bool isValidPawnMove(Move move);
+        int turn;
         int (*board)[8];
         static const int p = 1;
         static const int b = 3;
