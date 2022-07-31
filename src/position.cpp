@@ -5,17 +5,68 @@
  ****************************************************************************/
 #include "position.h"
 
+namespace utils {
+    class Piece {
+        public:
+            Piece() {
+                val = 1;
+                color = "white";
+            }
+            Piece(std::string c) {
+                val = 1;
+                color = c;
+            }
+            Piece(std::string c, int v) {
+                val = v;
+                color = c;
+            }
+            std::string getColor() {
+                return color;
+            }
+            int getVal() {
+                return val;
+            }
+        
+        private:
+            std::string color;
+            int val;
+    };
+
+    class Square {
+        public:
+            Square() {
+                row = 1;
+                col = 'a';
+            }
+            Square(int r, char c) {
+                row = r;
+                col = c;
+            }
+            Square(Piece p) {
+                piece = p;
+                row = 1;
+                col = 'a';
+            }
+            Square(Piece p, int r, char c) {
+                piece = p;
+                row = r;
+                col = c;
+            }
+            bool isOccupied() {
+                if (piece == NULL)
+                    return true;
+                return false;
+            }
+
+        private:
+            Piece piece;
+            int row;
+            char col;
+    }
+}
+
 Position::Position() {
-    int temp[8][8] = {{r, n, b, q, k, b, n, r},
-                    {p, p, p, p, p, p, p, p},
-                    {0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0},
-                    {p, p, p, p, p, p, p, p},
-                    {r, n, b, q, k, b, n, r}};
-    board = temp;
-    turn = 0;
+    setup();
 }
 
 Position::Position(int b[8][8]) {
@@ -24,14 +75,43 @@ Position::Position(int b[8][8]) {
 }
 
 void Position::reset() {
-    int temp[8][8] = {{r, n, b, q, k, b, n, r},
-                    {p, p, p, p, p, p, p, p},
+    setup();
+}
+
+void Position::setup() {
+    utils::Piece whitePawn("white", 1);
+    utils::Piece whiteRook("white", 5);
+    utils::Piece whiteKnight("white", 3);
+    utils::Piece whiteBishop("white", 3);
+    utils::Piece whiteQueen("white", 9);
+    utils::Piece whiteKing("white", 6000);
+
+    utils::Piece blackPawn("black", 1);
+    utils::Piece blackRook("black", 5);
+    utils::Piece blackKnight("black", 3);
+    utils::Piece blackBishop("black", 3);
+    utils::Piece blackQueen("black", 9);
+    utils::Piece blackKing("black", 6000);
+
+    utils::Square empty();
+
+    utils::Square temp[8][8]; {{utils::Square(blackRook, 8, 'a')},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {},
+                                {}};
+
+    int temp[8][8] = {{blackRook.getVal(), blackKnight.getVal(), blackBishop.getVal(), blackQueen.getVal(), blackKing.getVal(), blackBishop.getVal(), blackKnight.getVal(), blackRook.getVal()},
+                    {blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal(), blackPawn.getVal()},
                     {0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 0, 0, 0, 0, 0},
-                    {p, p, p, p, p, p, p, p},
-                    {r, n, b, q, k, b, n, r}};
+                    {whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal(), whitePawn.getVal()},
+                    {whiteRook.getVal(), whiteKnight.getVal(), whiteBishop.getVal(), whiteQueen.getVal(), whiteKing.getVal(), whiteBishop.getVal(), whiteKnight.getVal(), whiteRook.getVal()}};
     board = temp;
     turn = 0;
 }
@@ -83,24 +163,44 @@ bool Position::makeMove(Move move) {
 }
 
 bool Position::isValid(Move move) {
+    std::string piece = move.getPiece();
+
+    if (piece == "r") {
+        if (!isValidRookMove(move))
+            return false;
+    }
+    else if (piece == "n") {
+        if (!isValidKnightMove(move))
+            return false;
+    }
+    else if (piece == "b") {
+        if (!isValidBishopMove(move))
+            return false;
+    }  
+    else if (piece == "q") {
+        if (!isValidQueenMove(move))
+            return false;
+    }
+    else if (piece == "k") {
+        if (!isValidKingMove(move))
+            return false;
+    }
+    else if (piece == "p") {
+        if (!isValidPawnMove(move))
+            return false;
+    }
+    else
+        return false;
+
     return true;
 }
 
 bool Position::isValidKnightMove(Move move) {
-    std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
     if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
         return false;
@@ -109,86 +209,50 @@ bool Position::isValidKnightMove(Move move) {
 }
 
 bool Position::isValidRookMove(Move move) {
-std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
-    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+    if (rowDiff != 0 && colDiff != 0)
         return false;
 
     return true;
 }
 
 bool Position::isValidBishopMove(Move move) {
-std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
-    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+    if (rowDiff - colDiff != 0)
         return false;
 
     return true;
 }
 
 bool Position::isValidQueenMove(Move move) {
-    std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
-    if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
+    if (rowDiff - colDiff != 0)
         return false;
 
     return true;
 }
 
 bool Position::isValidKingMove(Move move) {
-    std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
     if ((rowDiff == 2 && colDiff != 1) || (rowDiff == 1 && colDiff != 2))
         return false;
@@ -197,28 +261,22 @@ bool Position::isValidKingMove(Move move) {
 }
 
 bool Position::isValidPawnMove(Move move) {
-    std::string curPos = move.getCurPos();
-    std::string newPos = move.getNewPos();
-
-    int curCol = move.getColVal(curPos.substr(1, 1));
-    int curRow = std::stoi(curPos.substr(0, 1));
-
-    int newCol = move.getColVal(newPos.substr(1, 1));
-    int newRow = std::stoi(newPos.substr(0, 1));
-
-    if (!standardChecks(curPos, newPos, move))
+    if (!standardChecks(move))
         return false;
 
-    int rowDiff = std::abs(curCol - newCol);
-    int colDiff = std::abs(curRow - newRow);
+    int colDiff = getColDiff(move);
+    int rowDiff = getRowDiff(move);
 
-    if ((rowDiff == 1 && colDiff != 1) || (rowDiff == 1 && colDiff != 0))
+    if ((rowDiff != 1 && rowDiff != 2) || (rowDiff == 1 && colDiff != 0))
         return false;
 
     return true;
 }
 
-bool Position::standardChecks(std::string curPos, std::string newPos, Move move) {
+bool Position::standardChecks(Move move) {
+    std::string curPos = move.getCurPos();
+    std::string newPos = move.getNewPos();
+
     int curCol = move.getColVal(curPos.substr(1, 1));
     int curRow = std::stoi(curPos.substr(0, 1));
 
@@ -238,4 +296,24 @@ bool Position::standardChecks(std::string curPos, std::string newPos, Move move)
         return false;
 
     return true;
+}
+
+int Position::getColDiff(Move move) {
+    std::string curPos = move.getCurPos();
+    std::string newPos = move.getNewPos();
+
+    int curCol = move.getColVal(curPos.substr(1, 1));
+    int newCol = move.getColVal(newPos.substr(1, 1));
+
+    return std::abs(curCol - newCol);
+}
+
+int Position::getRowDiff(Move move) {
+    std::string curPos = move.getCurPos();
+    std::string newPos = move.getNewPos();
+
+    int curRow = std::stoi(curPos.substr(0, 1));
+    int newRow = std::stoi(curPos.substr(0, 1));
+
+    return std::abs(curRow - newRow);
 }
