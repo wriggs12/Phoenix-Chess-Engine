@@ -5,6 +5,8 @@
  ****************************************************************************/
 #include <vector>
 #include <iostream>
+
+#include "board.cpp"
 #include "move.cpp"
 
 #ifndef POSITION_H
