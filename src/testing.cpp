@@ -1,8 +1,7 @@
 #include "engine.cpp"
-#include "position.cpp"
 #include <iostream>
 
 int main() {
-    Position pos = Position();
+    Engine e;
     return 0;
 }

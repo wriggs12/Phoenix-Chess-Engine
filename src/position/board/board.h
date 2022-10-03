@@ -9,12 +9,16 @@ class PhoenixBoard {
     public:
         PhoenixBoard();
         PieceType getPieceOnSquare(int sqaure);
-        bool updateBoard(int startSquare, int endSquare);
+        void updateBoard(int startSquare, int endSquare);
+        bool hasWhiteKingMoved();
+        bool hasBlackKingMoved();
 
     protected:
 
     private:
         std::vector<std::vector<PieceType>> board;
+        bool whiteKingMoved;
+        bool blackKingMoved;
 };
 
 #endif
