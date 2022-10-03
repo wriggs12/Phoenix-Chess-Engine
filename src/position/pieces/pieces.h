@@ -14,7 +14,8 @@ class Pieces {
     protected:
 
     private:
-        std::vector<int> getValidPawnMoves(PhoenixBoard b, int square);
+        std::vector<int> getValidWhitePawnMoves(PhoenixBoard b, int square);
+        std::vector<int> getValidBlackPawnMoves(PhoenixBoard b, int square);
         std::vector<int> getValidKnightMoves(PhoenixBoard b, int square);
         std::vector<int> getValidBishopMoves(PhoenixBoard b, int square);
         std::vector<int> getValidRookMoves(PhoenixBoard b, int square); 

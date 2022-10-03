@@ -30,6 +30,9 @@ PieceType PhoenixBoard::getPieceOnSquare(int square) {
     int rank = square / 8;
     int file = square % 8;
 
+    if (rank > 7 || file > 7)
+        return NOT_ON_BOARD;
+        
     return board[rank][file];
 }
 

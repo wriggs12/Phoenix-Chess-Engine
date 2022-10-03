@@ -40,16 +40,55 @@ std::vector<int> Pieces::getValidMoves(PieceType t, PhoenixBoard b, int square) 
     else if (t == WHITE_KING || t == BLACK_KING) {
         validMoves = getValidKingMoves(b, square);
     }
+    else if (t == WHITE_PAWN) {
+        validMoves = getValidWhitePawnMoves(b, square);
+    }
     else {
-        validMoves = getValidPawnMoves(b, square);
+        validMoves = getValidBlackPawnMoves(b, square);
     }
 
     return validMoves;
 }
 
-std::vector<int> Pieces::getValidPawnMoves(PhoenixBoard b, int square) {
+std::vector<int> Pieces::getValidWhitePawnMoves(PhoenixBoard b, int square) {
     std::vector<int> moves;
-    
+
+    if (b.getPieceOnSquare(square + 8) == NO_PIECE) {
+        moves.push_back(square + 8);
+        if (square / 8 == 1 && b.getPieceOnSquare(square + 16) == NO_PIECE) {
+            moves.push_back(square + 16);
+        }
+    }
+
+    if ((square + 7) / 8 == (square / 8) + 1 && b.getPieceOnSquare(square + 7) != NO_PIECE && b.getPieceOnSquare(square + 7) != NOT_ON_BOARD) {
+        moves.push_back(square + 7);
+    }
+
+    if ((square + 9) / 8 == (square / 8) + 1 && b.getPieceOnSquare(square + 9) != NO_PIECE && b.getPieceOnSquare(square + 9) != NOT_ON_BOARD) {
+        moves.push_back(square + 9);
+    }
+
+    return moves;
+}
+
+std::vector<int> Pieces::getValidBlackPawnMoves(PhoenixBoard b, int square) {
+    std::vector<int> moves;
+
+    if (b.getPieceOnSquare(square - 8) == NO_PIECE) {
+        moves.push_back(square - 8);
+        if (square / 8 == 6 && b.getPieceOnSquare(square - 16) == NO_PIECE) {
+            moves.push_back(square - 16);
+        }
+    }
+
+    if ((square - 7) / 8 == (square / 8) - 1 && b.getPieceOnSquare(square - 7) != NO_PIECE && b.getPieceOnSquare(square - 7) != NOT_ON_BOARD) {
+        moves.push_back(square - 7);
+    }
+
+    if ((square - 9) / 8 == (square / 8) - 1 && b.getPieceOnSquare(square - 9) != NO_PIECE && b.getPieceOnSquare(square - 9) != NOT_ON_BOARD) {
+        moves.push_back(square - 9);
+    }
+
     return moves;
 }
 
@@ -84,5 +123,15 @@ std::vector<int> Pieces::getValidKingMoves(PhoenixBoard b, int square) {
 }
 
 int main() {
+    Pieces p;
+    PhoenixBoard b;
+
+    std::vector<int> moves = p.getValidMoves(b.getPieceOnSquare(48), b, 48);
+
+    for (int i = 0; i < moves.size(); i++) {
+        std::cout << moves.at(i) << " ";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
