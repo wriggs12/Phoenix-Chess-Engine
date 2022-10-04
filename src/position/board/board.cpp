@@ -30,7 +30,7 @@ PieceType PhoenixBoard::getPieceOnSquare(int square) {
     int rank = square / 8;
     int file = square % 8;
 
-    if (rank > 7 || file > 7)
+    if (rank > 7 || file > 7 || rank < 0 || file < 0)
         return NOT_ON_BOARD;
         
     return board[rank][file];
@@ -53,4 +53,12 @@ bool PhoenixBoard::hasWhiteKingMoved() {
 
 bool PhoenixBoard::hasBlackKingMoved() {
     return blackKingMoved;
+}
+
+int PhoenixBoard::getRank(int square) {
+    return square / 8;
+}
+
+int PhoenixBoard::getFile(int square) {
+    return square % 8;
 }

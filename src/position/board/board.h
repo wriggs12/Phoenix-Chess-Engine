@@ -12,6 +12,8 @@ class PhoenixBoard {
         void updateBoard(int startSquare, int endSquare);
         bool hasWhiteKingMoved();
         bool hasBlackKingMoved();
+        int getRank(int square);
+        int getFile(int square);
 
     protected:
 
