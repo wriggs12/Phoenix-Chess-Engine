@@ -158,7 +158,7 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
 
     PieceType other = b.getPieceOnSquare(newSquare);
     int newRank = b.getRank(newSquare);
-    int newFile = b.getFile(newFile);
+    int newFile = b.getFile(newSquare);
 
     while (other != NOT_ON_BOARD && curRank + 1 == newRank && curFile - 1 == newFile && !isSameColor(other, t)) {
         moves.push_back(newSquare);
@@ -171,6 +171,9 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
         newSquare = newSquare + 7;
 
         other = b.getPieceOnSquare(newSquare);
+
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
     }
 
     //TOP-RIGHT
@@ -191,6 +194,9 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
         newSquare = newSquare + 9;
 
         other = b.getPieceOnSquare(newSquare);
+        
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
     }
 
     //BOTTOM-LEFT
@@ -211,6 +217,9 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
         newSquare = newSquare - 9;
 
         other = b.getPieceOnSquare(newSquare);
+        
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
     }
 
     //BOTTOM-RIGHT
@@ -231,6 +240,9 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
         newSquare = newSquare - 7;
 
         other = b.getPieceOnSquare(newSquare);
+        
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
     }
 
     return moves;
@@ -268,7 +280,16 @@ int main() {
     Pieces p;
     PhoenixBoard b;
 
-    std::vector<int> moves = p.getValidMoves(b.getPieceOnSquare(1), b, 1);
+    b.updateBoard(9, 17);
+
+    // for (int i = 7; i >= 0; i--) {
+    //     for (int j = 0; j < 8; j++) {
+    //         std::cout << b.getPieceOnSquare((i * 8) + j) << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+
+    std::vector<int> moves = p.getValidMoves(b.getPieceOnSquare(2), b, 2);
 
     for (int i = 0; i < moves.size(); i++)
         std::cout << moves.at(i) << " ";
