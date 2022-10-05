@@ -174,10 +174,64 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
     }
 
     //TOP-RIGHT
+    newSquare = square + 9;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newSquare);
+    newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank + 1 == newRank && curFile + 1 == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare + 9;
+
+        other = b.getPieceOnSquare(newSquare);
+    }
 
     //BOTTOM-LEFT
+    newSquare = square - 9;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newSquare);
+    newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank - 1 == newRank && curFile - 1 == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare - 9;
+
+        other = b.getPieceOnSquare(newSquare);
+    }
 
     //BOTTOM-RIGHT
+    newSquare = square - 7;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newRank);
+    newFile = b.getFile(newFile);
+
+    while (other != NOT_ON_BOARD && curRank - 1 == newRank && curFile + 1 == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare - 7;
+
+        other = b.getPieceOnSquare(newSquare);
+    }
 
     return moves;
 }
