@@ -251,17 +251,131 @@ std::vector<int> Pieces::getValidBishopMoves(PhoenixBoard b, int square, PieceTy
 std::vector<int> Pieces::getValidRookMoves(PhoenixBoard b, int square, PieceType t) {
     std::vector<int> moves;
 
+    int curRank = b.getRank(square);
+    int curFile = b.getFile(square);
+
+    //RIGHT
+    int newSquare = square + 1;
+
+    PieceType other = b.getPieceOnSquare(newSquare);
+    int newRank = b.getRank(newSquare);
+    int newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank == newRank && curFile + 1 == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+        
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare + 1;
+
+        other = b.getPieceOnSquare(newSquare);
+
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
+    }
+
+    //DOWN
+    newSquare = square - 8;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newSquare);
+    newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank - 1 == newRank && curFile == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+        
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare - 8;
+
+        other = b.getPieceOnSquare(newSquare);
+
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
+    }
+
+    //LEFT
+    newSquare = square - 1;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newSquare);
+    newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank == newRank && curFile - 1 == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+        
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare - 1;
+
+        other = b.getPieceOnSquare(newSquare);
+
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
+    }
+
+    //UP
+    newSquare = square + 8;
+
+    other = b.getPieceOnSquare(newSquare);
+    newRank = b.getRank(newSquare);
+    newFile = b.getFile(newSquare);
+
+    while (other != NOT_ON_BOARD && curRank + 1 == newRank && curFile == newFile && !isSameColor(other, t)) {
+        moves.push_back(newSquare);
+        
+        if (other != NO_PIECE)
+            break;
+
+        curRank = newRank;
+        curFile = newFile;
+        newSquare = newSquare + 8;
+
+        other = b.getPieceOnSquare(newSquare);
+
+        newRank = b.getRank(newSquare);
+        newFile = b.getFile(newSquare);
+    }
+
     return moves;
 }
 
 std::vector<int> Pieces::getValidQueenMoves(PhoenixBoard b, int square, PieceType t) {
     std::vector<int> moves;
 
+    //RIGHT
+
+    //DOWN
+
+    //LEFT
+
+    //UP
+
+    //TOP-LEFT
+
+    //TOP-RIGHT
+
+    //BOTTOM-RIGHT
+
+    //BOTTOM-LEFT
+
     return moves;
 }
 
 std::vector<int> Pieces::getValidKingMoves(PhoenixBoard b, int square, PieceType t) {
     std::vector<int> moves;
+
+    //Check moves for opposite color and iterate all moves for king
+    //Also add some way to castle
 
     return moves;
 }
