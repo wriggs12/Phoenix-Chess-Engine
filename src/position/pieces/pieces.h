@@ -21,6 +21,7 @@ class Pieces {
         std::vector<int> getValidRookMoves(PhoenixBoard b, int square, PieceType t); 
         std::vector<int> getValidQueenMoves(PhoenixBoard b, int square, PieceType t);
         std::vector<int> getValidKingMoves(PhoenixBoard b, int square, PieceType t);
+        std::vector<int> getLineMoves(PhoenixBoard b, int square, PieceType t, std::vector<int> moves, int movement, int rankChange, int fileChange);
         bool isSameColor(PieceType t1, PieceType t2);
 };
 
