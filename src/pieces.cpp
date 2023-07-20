@@ -263,26 +263,3 @@ bool Pieces::isSameColor(PieceType t1, PieceType t2) {
 
     return false;
 }
-
-int main() {
-    Pieces p;
-    PhoenixBoard b;
-
-    b.updateBoard(12, 20);
-
-    // for (int i = 7; i >= 0; i--) {
-    //     for (int j = 0; j < 8; j++) {
-    //         std::cout << b.getPieceOnSquare((i * 8) + j) << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-
-    std::vector<int> moves = p.getValidMoves(b.getPieceOnSquare(3), b, 3);
-
-    for (int i = 0; i < moves.size(); i++)
-        std::cout << moves.at(i) << " ";
-
-    std::cout << std::endl;
-
-    return 0;
-}

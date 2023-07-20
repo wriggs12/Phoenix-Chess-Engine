@@ -1,8 +1,7 @@
 #ifndef PIECES_H
 #define PIECES_H
 
-#include "../board/board.cpp"
-
+#include "board.h"
 #include <vector>
 
 class Pieces {

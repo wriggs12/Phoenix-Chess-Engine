@@ -1,8 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "../../uils.h"
-
+#include "utils.h"
 #include <vector>
 
 class PhoenixBoard {
