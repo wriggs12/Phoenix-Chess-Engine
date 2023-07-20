@@ -12,7 +12,3 @@ add_library(PheonixEngineLib
 )
 
 target_include_directories(PheonixEngineLib PUBLIC ./)
-
-add_executable(PheonixEngine testing.cpp)
-
-target_link_libraries(PheonixEngine PRIVATE PheonixEngineLib)
