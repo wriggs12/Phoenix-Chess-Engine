@@ -10,6 +10,9 @@
   <a href="https://github.com/wriggs12">
     <img alt="Last Commit" src="https://img.shields.io/github/last-commit/wriggs12/Pheonix-Chess-Engine">
   </a>
+  <br/>
+  <br/>
+  <img src="https://github.com/wriggs12/Pheonix-Chess-Engine/blob/master/Pheonix%20Logo.png">
 </p>
 
 C++ Deterministic Chess Engine
