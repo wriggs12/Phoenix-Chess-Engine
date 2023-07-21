@@ -1,14 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(PheonixEngine)
+project(pheonix_engine)
 
 enable_testing()
 
-add_library(PheonixEngineLib
-    src/board.cpp
-    src/engine.cpp
-    src/pieces.cpp
-    src/utils.h
-)
-
-target_include_directories(PheonixEngineLib PUBLIC ./)
+add_subdirectory(lib)
+add_subdirectory(src)
+add_subdirectory(test)
+add_subdirectory(googletest)
