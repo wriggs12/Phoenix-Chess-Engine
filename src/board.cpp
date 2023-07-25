@@ -4,7 +4,7 @@ PheonixBoard::PheonixBoard() : board(BOARD_SIZE)
 {
 }
 
-const BitBoard PheonixBoard::getPieceBoard(Piece boardType)
+BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 {
     return board[boardType];
 }

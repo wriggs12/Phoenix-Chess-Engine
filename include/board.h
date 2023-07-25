@@ -14,7 +14,7 @@
 class PheonixBoard {
     public:
         PheonixBoard();
-        const BitBoard getPieceBoard(Piece boardType);
+        BitBoard getPieceBoard(Piece boardType) const;
 
     private:
         std::vector<BitBoard> board;
