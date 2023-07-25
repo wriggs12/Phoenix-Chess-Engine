@@ -2,7 +2,7 @@
 
 <p align="center">
     <img alt="Last Commit" src="https://img.shields.io/github/last-commit/wriggs12/Pheonix-Chess-Engine">
-    <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/wriggs12/Pheonix-Chess-Engine/cmake.yml">
+    <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/wriggs12/Pheonix-Chess-Engine/ci.yml">
     <br/>
     <a href="https://github.com/wriggs12/Huffman-Data-Compressor/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/wriggs12/Pheonix-Chess-Engine" alt="MIT License">
