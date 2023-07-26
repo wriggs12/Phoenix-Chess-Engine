@@ -8,16 +8,21 @@
 #define BOARD_H
 
 #include <vector>
-
 #include <utils.h>
 
 class PheonixBoard {
     public:
-        PheonixBoard();
+        PheonixBoard(const std::string& fen = DEFAULT_POSITION);
+        PheonixBoard(const PheonixBoard& other);
         BitBoard getPieceBoard(Piece boardType) const;
 
     private:
-        std::vector<BitBoard> board;
+        void loadFEN(const std::string& fen);
+        // void printBitBoard();
+
+    private:
+        std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
+        Color currentMove;
 };
 
 #endif

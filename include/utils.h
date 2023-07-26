@@ -8,14 +8,14 @@
 #define UTILS_H
 
 #include <cstdint>
-
-#define DEFAULT_POSITION std::string("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkg - 0 1") //fen format
+#include <unordered_map>
 
 typedef uint64_t BitBoard;
+static const int BOARD_SIZE = 12;
 
-const int BOARD_SIZE = 12;
+#define DEFAULT_POSITION std::string("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkg - 0 1") //FEN format
 
-enum Piece : uint8_t {
+enum Piece {
     WHITEPAWN,
     WHITEROOK,
     WHITEKNIGHT,
@@ -24,11 +24,31 @@ enum Piece : uint8_t {
     WHITEKING,
     BLACKPAWN,
     BLACKROOK,
-    BLACKKINGHT,
+    BLACKKNIGHT,
     BLACKBISHOP,
     BLACKQUEEN,
     BLACKKING,
     EMPTY
+};
+
+enum Color : uint8_t {
+    WHITE,
+    BLACK
+};
+
+const std::unordered_map<char, Piece> pieceMap = {
+    {'r', WHITEROOK},
+    {'n', WHITEKNIGHT},
+    {'b', WHITEBISHOP},
+    {'q', WHITEQUEEN},
+    {'k', WHITEKING},
+    {'p', WHITEPAWN},
+    {'P', BLACKPAWN},
+    {'R', BLACKROOK},
+    {'N', BLACKKNIGHT},
+    {'B', BLACKBISHOP},
+    {'Q', BLACKQUEEN},
+    {'K', BLACKKING}
 };
 
 #endif
