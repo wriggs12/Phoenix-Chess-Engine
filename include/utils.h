@@ -9,22 +9,26 @@
 
 #include <cstdint>
 
+#define DEFAULT_POSITION std::string("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkg - 0 1") //fen format
+
 typedef uint64_t BitBoard;
 
 const int BOARD_SIZE = 12;
-enum Piece {
-    whitePawn, 
-    whiteRook, 
-    whiteKnight, 
-    whiteBishop, 
-    whiteQueen, 
-    whiteKing, 
-    blackPawn, 
-    blackRook, 
-    blackKnight, 
-    blackBishop, 
-    blackQueen,
-    blackKing
+
+enum Piece : uint8_t {
+    WHITEPAWN,
+    WHITEROOK,
+    WHITEKNIGHT,
+    WHITEBISHOP,
+    WHITEQUEEN,
+    WHITEKING,
+    BLACKPAWN,
+    BLACKROOK,
+    BLACKKINGHT,
+    BLACKBISHOP,
+    BLACKQUEEN,
+    BLACKKING,
+    EMPTY
 };
 
 #endif
