@@ -7,8 +7,23 @@
 #include <iostream>
 #include <board.h>
 
-// TODO: Delete This
-void PheonixBoard::printBitBoard()
+PheonixBoard::PheonixBoard(const std::string& fen)
+{
+    loadFEN(fen);
+}
+
+// PheonixBoard::PheonixBoard(const PheonixBoard& other)
+// {
+    
+// }
+
+// PheonixBoard& PheonixBoard::opeartor=(const PheonixBoard& other)
+// {
+
+// }
+
+// TODO: Make This Better, Reverse Top to bottom
+std::ostream& PheonixBoard::operator<<(std::ostream& os)
 {
     std::unordered_map<int, std::string> tempMap = {
         {0,"White Pawn"},
@@ -24,21 +39,25 @@ void PheonixBoard::printBitBoard()
         {10,"Black Queen"},
         {11,"Black King"},
     };
+
     for (int k = 0; k < 12; k++)
     {
-        std::cout << tempMap[k] << ": " << std::endl;
+        os << tempMap[k] << ": " << std::endl;
         uint64_t curSquare = 0x1;
+
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                std::cout << ((board[k] & curSquare) >> ((i*8) + j));
+                os << ((board[k] & curSquare) >> ((i*8) + j));
                 curSquare = curSquare << 1;
             }
-            std::cout << std::endl;
+            os << std::endl;
         }
-        std::cout << std::endl;
+        os << std::endl;
     }
+
+    return os;
 }
 
 void PheonixBoard::loadFEN(const std::string& fen)
@@ -49,7 +68,10 @@ void PheonixBoard::loadFEN(const std::string& fen)
     for (; citr != fen.end(); ++citr)
     {
         if (*citr == ' ')
+        {
+            ++citr;
             break;
+        }
         else if (*citr == '/')
             continue;
         else if (isdigit(*citr))
@@ -61,15 +83,29 @@ void PheonixBoard::loadFEN(const std::string& fen)
             curSquare = curSquare << 1;
         }
     }
+
+    if (*citr++ == 'w')
+        currentMove = WHITE;
+    else
+        currentMove = BLACK;
 }
 
-PheonixBoard::PheonixBoard(const std::string& fen)
+// Piece getPiece(int square) const
+// {
+
+// }
+
+std::string PheonixBoard::generateFEN() const
 {
-    loadFEN(fen);
-    printBitBoard();
+    return "Test";
 }
 
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 {
     return board[boardType];
+}
+
+std::string PheonixBoard::getFenBoard() const
+{
+    return generateFEN();
 }

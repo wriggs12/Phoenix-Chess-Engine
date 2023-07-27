@@ -14,11 +14,23 @@ class PheonixBoard {
     public:
         PheonixBoard(const std::string& fen = DEFAULT_POSITION);
         PheonixBoard(const PheonixBoard& other);
+        PheonixBoard& operator=(const PheonixBoard& other);
+        std::ostream& operator<<(std::ostream& os);
+
+        ~PheonixBoard() = default;
+
         BitBoard getPieceBoard(Piece boardType) const;
+        std::string getFenBoard() const;
+
+        bool isInCheck(Color player) const;
+        bool isDraw() const;
+        // void move(add move class/namespcae)
+        bool canCastle(Color player) const;
+        Piece getPiece(int square) const;
 
     private:
         void loadFEN(const std::string& fen);
-        void printBitBoard();
+        std::string generateFEN() const;
 
     private:
         std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
