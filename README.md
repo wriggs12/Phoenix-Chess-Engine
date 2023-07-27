@@ -17,6 +17,11 @@
 
 C++ Deterministic Chess Engine
 
+To Do:
+- UCI compatible
+- min-max algorithm
+- beta-alpha pruning
+
 ## Authors
 
 - [@winston riggs](https://github.com/wriggs12)
