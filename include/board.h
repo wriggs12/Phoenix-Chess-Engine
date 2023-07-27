@@ -18,7 +18,7 @@ class PheonixBoard {
 
     private:
         void loadFEN(const std::string& fen);
-        // void printBitBoard();
+        void printBitBoard();
 
     private:
         std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
