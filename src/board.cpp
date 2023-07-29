@@ -121,17 +121,17 @@ std::string PheonixBoard::getFenBoard() const
     return generateFEN();
 }
 
-bool PheonixBoard::isInCheck(Color player) const
-{
-    return false;
-}
+// bool PheonixBoard::isInCheck(Color player) const
+// {
+//     return false;
+// }
 
 bool PheonixBoard::isDraw() const
 {
     return false;
 }
 
-bool PheonixBoard::canCastle(Color player) const
-{
-    return false;
-}
+// bool PheonixBoard::canCastle(Color player) const
+// {
+//     return false;
+// }
