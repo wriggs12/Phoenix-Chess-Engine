@@ -10,7 +10,6 @@
 PheonixBoard::PheonixBoard(const std::string& fen)
 {
     loadFEN(fen);
-    generateFEN();
 }
 
 // PheonixBoard::PheonixBoard(const PheonixBoard& other)
@@ -93,12 +92,12 @@ void PheonixBoard::loadFEN(const std::string& fen)
 
 Piece PheonixBoard::getPiece(int square) const
 {
-    uint64_t temp = 0x1;
+    uint64_t temp = 1;
     temp = temp << square;
     
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        if ((temp & board[i]) != 0)
+        if ((temp & board[numPieceMap.at(i)]) != 0)
             return numPieceMap.at(i);
     }
 
@@ -114,10 +113,8 @@ std::string PheonixBoard::generateFEN() const
         fen += getLine(i);
 
         if (i != 7)
-            fen += '\n';
+            fen += '/';
     }
-
-    // std::cout << fen << std::endl;
 
     return fen;
 }
@@ -130,12 +127,9 @@ std::string PheonixBoard::getLine(int lineNum) const
     temp = temp << (8 * lineNum);
     int curStreak = 0;
 
-    std::cout << temp << " " << curStreak << " " << lineNum << std::endl;
-
     for (int i = 0; i < 8; ++i)
     {
         const Piece curPiece = getPiece(lineNum*8 + i);
-        // std::cout << curPiece << std::endl;
 
         if (curPiece == EMPTY)
             curStreak++;
@@ -143,20 +137,17 @@ std::string PheonixBoard::getLine(int lineNum) const
         {
             if (curStreak != 0)
             {
-                line += curStreak;
+                line += std::to_string(curStreak);
                 curStreak = 0;
             }
 
-            // line += pieceLetterMap.at(curPiece);
+            line += pieceLetterMap.at(curPiece);
         }
         temp = temp << 1;
     }
 
     if (curStreak != 0)
-    {
-        line += curStreak;
-        curStreak = 0;
-    }
+        line += std::to_string(curStreak);
 
     return line;
 }
@@ -166,10 +157,10 @@ BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
     return board[boardType];
 }
 
-std::string PheonixBoard::getFenBoard() const
-{
-    return generateFEN();
-}
+// std::string PheonixBoard::getFenBoard() const
+// {
+//     return generateFEN();
+// }
 
 // bool PheonixBoard::isInCheck(Color player) const
 // {

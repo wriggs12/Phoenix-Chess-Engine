@@ -63,22 +63,23 @@ const std::unordered_map<Piece, char> pieceLetterMap = {
     {BLACKKNIGHT, 'N'},
     {BLACKBISHOP, 'B'},
     {BLACKQUEEN, 'Q'},
-    {BLACKKING, 'K'}
+    {BLACKKING, 'K'},
+    {EMPTY, 'e'}
 };
 
 const std::unordered_map<int, Piece> numPieceMap = {
-    {1, WHITEPAWN},
-    {2, WHITEROOK},
-    {3, WHITEKNIGHT},
-    {4, WHITEBISHOP},
-    {5, WHITEQUEEN},
-    {6, WHITEKING},
-    {7, BLACKPAWN},
-    {8, BLACKROOK},
-    {9, BLACKKNIGHT},
-    {10, BLACKBISHOP},
-    {11, BLACKQUEEN},
-    {12, BLACKKING}
+    {0, WHITEPAWN},
+    {1, WHITEROOK},
+    {2, WHITEKNIGHT},
+    {3, WHITEBISHOP},
+    {4, WHITEQUEEN},
+    {5, WHITEKING},
+    {6, BLACKPAWN},
+    {7, BLACKROOK},
+    {8, BLACKKNIGHT},
+    {9, BLACKBISHOP},
+    {10, BLACKQUEEN},
+    {11, BLACKKING}
 };
 
 #endif
