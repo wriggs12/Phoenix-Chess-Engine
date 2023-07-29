@@ -31,6 +31,7 @@ class PheonixBoard {
     private:
         void loadFEN(const std::string& fen);
         std::string generateFEN() const;
+        std::string getLine(int line) const;
 
     private:
         std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);

@@ -92,7 +92,7 @@ void PheonixBoard::loadFEN(const std::string& fen)
 
 Piece PheonixBoard::getPiece(int square) const
 {
-    uint64_t temp = 0x1 << (square - 1);
+    uint64_t temp = 0x00000001 << (square - 1);
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
         if ((temp & board[i]) != 0)
@@ -106,9 +106,19 @@ std::string PheonixBoard::generateFEN() const
 {
     std::string fen = "";
 
-
+    for (int i = 0; i < 8; ++i)
+    {
+        fen += getLine(i);
+    }
 
     return fen;
+}
+
+std::string PheonixBoard::getLine(int line) const
+{
+    std::cout << line << std::endl;
+
+    return "";
 }
 
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
