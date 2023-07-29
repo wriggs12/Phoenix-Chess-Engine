@@ -10,6 +10,7 @@
 PheonixBoard::PheonixBoard(const std::string& fen)
 {
     loadFEN(fen);
+    generateFEN();
 }
 
 // PheonixBoard::PheonixBoard(const PheonixBoard& other)
@@ -92,7 +93,9 @@ void PheonixBoard::loadFEN(const std::string& fen)
 
 Piece PheonixBoard::getPiece(int square) const
 {
-    uint64_t temp = 0x00000001 << (square - 1);
+    uint64_t temp = 0x1;
+    temp = temp << square;
+    
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
         if ((temp & board[i]) != 0)
@@ -109,16 +112,53 @@ std::string PheonixBoard::generateFEN() const
     for (int i = 0; i < 8; ++i)
     {
         fen += getLine(i);
+
+        if (i != 7)
+            fen += '\n';
     }
+
+    // std::cout << fen << std::endl;
 
     return fen;
 }
 
-std::string PheonixBoard::getLine(int line) const
+std::string PheonixBoard::getLine(int lineNum) const
 {
-    std::cout << line << std::endl;
+    std::string line = "";
 
-    return "";
+    uint64_t temp = 0x1;
+    temp = temp << (8 * lineNum);
+    int curStreak = 0;
+
+    std::cout << temp << " " << curStreak << " " << lineNum << std::endl;
+
+    for (int i = 0; i < 8; ++i)
+    {
+        const Piece curPiece = getPiece(lineNum*8 + i);
+        // std::cout << curPiece << std::endl;
+
+        if (curPiece == EMPTY)
+            curStreak++;
+        else
+        {
+            if (curStreak != 0)
+            {
+                line += curStreak;
+                curStreak = 0;
+            }
+
+            // line += pieceLetterMap.at(curPiece);
+        }
+        temp = temp << 1;
+    }
+
+    if (curStreak != 0)
+    {
+        line += curStreak;
+        curStreak = 0;
+    }
+
+    return line;
 }
 
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
