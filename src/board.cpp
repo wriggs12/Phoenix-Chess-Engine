@@ -90,14 +90,25 @@ void PheonixBoard::loadFEN(const std::string& fen)
         currentMove = BLACK;
 }
 
-// Piece getPiece(int square) const
-// {
+Piece PheonixBoard::getPiece(int square) const
+{
+    uint64_t temp = 0x1 << (square - 1);
+    for (int i = 0; i < BOARD_SIZE; ++i)
+    {
+        if ((temp & board[i]) != 0)
+            return numPieceMap.at(i);
+    }
 
-// }
+    return EMPTY;
+}
 
 std::string PheonixBoard::generateFEN() const
 {
-    return "Test";
+    std::string fen = "";
+
+
+
+    return fen;
 }
 
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
@@ -108,4 +119,19 @@ BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 std::string PheonixBoard::getFenBoard() const
 {
     return generateFEN();
+}
+
+bool PheonixBoard::isInCheck(Color player) const
+{
+    return false;
+}
+
+bool PheonixBoard::isDraw() const
+{
+    return false;
+}
+
+bool PheonixBoard::canCastle(Color player) const
+{
+    return false;
 }

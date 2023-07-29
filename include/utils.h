@@ -51,4 +51,19 @@ const std::unordered_map<char, Piece> pieceMap = {
     {'K', BLACKKING}
 };
 
+const std::unordered_map<int, Piece> numPieceMap = {
+    {1, WHITEPAWN},
+    {2, WHITEROOK},
+    {3, WHITEKNIGHT},
+    {4, WHITEBISHOP},
+    {5, WHITEQUEEN},
+    {6, WHITEKING},
+    {7, BLACKPAWN},
+    {8, BLACKROOK},
+    {9, BLACKKNIGHT},
+    {10, BLACKBISHOP},
+    {11, BLACKQUEEN},
+    {12, BLACKKING}
+};
+
 #endif
