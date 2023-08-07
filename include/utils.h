@@ -82,4 +82,9 @@ const std::unordered_map<int, Piece> numPieceMap = {
     {11, BLACKKING}
 };
 
+struct square {
+    char file;
+    int rank;
+};
+
 #endif

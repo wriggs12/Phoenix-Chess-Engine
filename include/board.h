@@ -35,7 +35,11 @@ class PheonixBoard {
 
     private:
         std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
+        std::unordered_map<Color, std::pair<bool, bool>> castlingRights;
         Color currentMove;
+        square enPassantSquare;
+        int halfMoves;
+        int fullMoves;
 };
 
 #endif

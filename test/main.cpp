@@ -4,5 +4,8 @@
 
 TEST_CASE("Testing Board Constructor")
 {
-    PheonixBoard b;
+    PheonixBoard a;
+    PheonixBoard b(a);
+
+    CHECK(a.getFenBoard() == b.getFenBoard());
 }

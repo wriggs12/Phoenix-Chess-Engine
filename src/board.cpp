@@ -10,12 +10,12 @@
 PheonixBoard::PheonixBoard(const std::string& fen)
 {
     loadFEN(fen);
+    getFenBoard();
 }
 
-// PheonixBoard::PheonixBoard(const PheonixBoard& other)
-// {
-    
-// }
+PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.generateFEN())
+{
+}
 
 // PheonixBoard& PheonixBoard::opeartor=(const PheonixBoard& other)
 // {
@@ -85,9 +85,54 @@ void PheonixBoard::loadFEN(const std::string& fen)
     }
 
     if (*citr++ == 'w')
+    {
         currentMove = WHITE;
+        citr++;
+    }
     else
+    {
         currentMove = BLACK;
+        citr++;
+    }
+
+    castlingRights[WHITE] = {false, false};
+    while (isupper(*citr))
+    {
+        if (*citr++ == 'K')
+        {
+            castlingRights[WHITE].first = true;
+        }
+        else
+        {
+            castlingRights[WHITE].second = true;
+        }
+    }
+
+    castlingRights[BLACK] = {false, false};
+    while (islower(*citr))
+    {
+        if (*citr++ == 'k')
+        {
+            castlingRights[BLACK].first = true;
+        }
+        else
+        {
+            castlingRights[BLACK].second = true;
+        }
+    }
+
+    citr++;
+    if (*citr++ != '-')
+    {
+        enPassantSquare.file = *citr++;
+        enPassantSquare.rank = *citr++ - '0';
+    }
+
+    citr++;
+    halfMoves = *citr++ - '0';
+
+    citr++;
+    fullMoves = *citr - '0';
 }
 
 Piece PheonixBoard::getPiece(int square) const
@@ -115,6 +160,26 @@ std::string PheonixBoard::generateFEN() const
         if (i != 7)
             fen += '/';
     }
+
+    if (currentMove == WHITE)
+    {
+        fen += " w ";
+    }
+    else
+    {
+        fen += " b ";
+    }
+
+    if (castlingRights[WHITE].first)
+        fen += 'K';
+    if (castlingRights[WHITE].second)
+        fen += 'Q';
+    if (castlingRights[BLACK].first)
+        fen += 'k';
+    if (castlingRights[BLACK].second)
+        fen += 'q';
+
+    
 
     return fen;
 }
@@ -157,10 +222,10 @@ BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
     return board[boardType];
 }
 
-// std::string PheonixBoard::getFenBoard() const
-// {
-//     return generateFEN();
-// }
+std::string PheonixBoard::getFenBoard() const
+{
+    return generateFEN();
+}
 
 // bool PheonixBoard::isInCheck(Color player) const
 // {
