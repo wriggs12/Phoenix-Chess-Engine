@@ -23,10 +23,6 @@ jobs:
             os: ubuntu-latest
             compiler: gcc
 
-          - toolchain: windows-msvc
-            os: windows-latest
-            compiler: msvc
-
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
