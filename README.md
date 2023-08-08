@@ -21,6 +21,7 @@ To Do:
 - UCI compatible
 - min-max algorithm
 - beta-alpha pruning
+- multi-thread
 
 ## Authors
 
