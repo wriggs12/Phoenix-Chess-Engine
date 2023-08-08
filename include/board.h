@@ -24,7 +24,7 @@ class PheonixBoard {
 
         bool isInCheck(Color player) const;
         bool isDraw() const;
-        // void move(add move class/namespcae)
+        // bool move(add move class/namespcae)
         bool canCastle(Color player) const;
         Piece getPiece(int square) const;
 
