@@ -9,8 +9,8 @@
 
 PheonixBoard::PheonixBoard(const std::string& fen)
 {
+    board = std::vector<BitBoard>(BOARD_SIZE, 0);
     loadFEN(fen);
-    getFenBoard();
 }
 
 PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.getFenBoard())
@@ -144,6 +144,17 @@ void PheonixBoard::loadFEN(const std::string& fen)
     boardFEN.fullMoves = *citr - '0';
 }
 
+//TODO: Implement Move
+bool PheonixBoard::move(Move mv)
+{
+    return true;
+}
+
+void PheonixBoard::updateFEN()
+{
+
+}
+
 void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
 {
     uint64_t curSquare = 1;
@@ -182,72 +193,6 @@ Piece PheonixBoard::getPiece(int square) const
     return EMPTY;
 }
 
-// std::string PheonixBoard::generateFEN() const
-// {
-//     std::string fen = "";
-
-//     for (int i = 0; i < 8; ++i)
-//     {
-//         fen += getLine(i);
-
-//         if (i != 7)
-//             fen += '/';
-//     }
-
-//     if (currentMove == WHITE)
-//     {
-//         fen += " w ";
-//     }
-//     else
-//     {
-//         fen += " b ";
-//     }
-
-//     if (boardFEN.castlingRights.at(WHITE).first)
-//         fen += 'K';
-//     if (boardFEN.castlingRights.at(WHITE).second)
-//         fen += 'Q';
-//     if (boardFEN.castlingRights.at(BLACK).first)
-//         fen += 'k';
-//     if (boardFEN.castlingRights.at(BLACK).second)
-//         fen += 'q';
-
-//     return fen;
-// }
-
-// std::string PheonixBoard::getLine(int lineNum) const
-// {
-//     std::string line = "";
-
-//     uint64_t temp = 0x1;
-//     temp = temp << (8 * lineNum);
-//     int curStreak = 0;
-
-//     for (int i = 0; i < 8; ++i)
-//     {
-//         const Piece curPiece = getPiece(lineNum*8 + i);
-
-//         if (curPiece == EMPTY)
-//             curStreak++;
-//         else
-//         {
-//             if (curStreak != 0)
-//             {
-//                 line += std::to_string(curStreak);
-//                 curStreak = 0;
-//             }
-
-//             line += pieceLetterMap.at(curPiece);
-//         }
-//         temp = temp << 1;
-//     }
-
-//     if (curStreak != 0)
-//         line += std::to_string(curStreak);
-
-//     return line;
-// }
-
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 {
     return board[boardType];
@@ -258,18 +203,18 @@ std::string PheonixBoard::getFenBoard() const
     return boardFEN.fen;
 }
 
-
-// bool PheonixBoard::isInCheck(Color player) const
-// {
-//     return false;
-// }
+//TODO: Implement Logic
+bool PheonixBoard::isInCheck(Color player) const
+{
+    return false;
+}
 
 bool PheonixBoard::isDraw() const
 {
     return false;
 }
 
-// bool PheonixBoard::canCastle(Color player) const
-// {
-//     return false;
-// }
+bool PheonixBoard::canCastle(Color player) const
+{
+    return false;
+}

@@ -96,4 +96,9 @@ struct FEN {
     int fullMoves;
 };
 
+struct Move {
+    Square start;
+    Square end;
+};
+
 #endif

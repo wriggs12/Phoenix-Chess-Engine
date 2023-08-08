@@ -26,19 +26,17 @@ class PheonixBoard {
 
         bool isInCheck(Color player) const;
         bool isDraw() const;
-        // bool move(add move class/namespcae)
+        bool move(Move mv);
         bool canCastle(Color player) const;
         Piece getPiece(int square) const;
 
     private:
         void loadFEN(const std::string& fen);
         void loadBoard(const std::string& fen, std::string::const_iterator& citr);
-        std::string generateFEN() const;
-        std::string getLine(int lineNum) const;
-        // void updateFEN();
+        void updateFEN();
 
     private:
-        std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
+        std::vector<BitBoard> board;
         FEN boardFEN;
 };
 
