@@ -48,7 +48,7 @@ bool PheonixBoard::operator==(const PheonixBoard& other)
 }
 
 // TODO: Make This Better, Reverse Top to bottom
-std::ostream& PheonixBoard::operator<<(std::ostream& os)
+std::ostream& operator<<(std::ostream& os, const PheonixBoard& other)
 {
     std::unordered_map<int, std::string> tempMap = {
         {0,"White Pawn"},
@@ -65,7 +65,7 @@ std::ostream& PheonixBoard::operator<<(std::ostream& os)
         {11,"Black King"},
     };
 
-    for (int k = 0; k < 12; k++)
+    for (int k = 0; k < BOARD_SIZE; k++)
     {
         os << tempMap[k] << ": " << std::endl;
         uint64_t curSquare = 0x1;
@@ -74,7 +74,7 @@ std::ostream& PheonixBoard::operator<<(std::ostream& os)
         {
             for (int j = 0; j < 8; j++)
             {
-                os << ((board[k] & curSquare) >> ((i*8) + j));
+                os << ((other.board[k] & curSquare) >> ((i*8) + j));
                 curSquare = curSquare << 1;
             }
             os << std::endl;

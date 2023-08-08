@@ -16,7 +16,7 @@ class PheonixBoard {
         PheonixBoard(const PheonixBoard& other);
 
         PheonixBoard& operator=(const PheonixBoard& other);
-        std::ostream& operator<<(std::ostream& os);
+        friend std::ostream& operator<<(std::ostream& os, const PheonixBoard& other);
         bool operator==(const PheonixBoard& other);
 
         ~PheonixBoard() = default;
@@ -35,6 +35,7 @@ class PheonixBoard {
         void loadBoard(const std::string& fen, std::string::const_iterator& citr);
         std::string generateFEN() const;
         std::string getLine(int lineNum) const;
+        // void updateFEN();
 
     private:
         std::vector<BitBoard> board = std::vector<BitBoard>(BOARD_SIZE, 0);
