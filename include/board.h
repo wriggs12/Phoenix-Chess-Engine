@@ -20,7 +20,7 @@ class PheonixBoard {
         ~PheonixBoard() = default;
 
         BitBoard getPieceBoard(Piece boardType) const;
-        std::string getFenBoard();
+        std::string getFenBoard() const;
 
         bool isInCheck(Color player) const;
         bool isDraw() const;
@@ -30,7 +30,7 @@ class PheonixBoard {
 
     private:
         void loadFEN(const std::string& fen);
-        std::string generateFEN();
+        std::string generateFEN() const;
         std::string getLine(int lineNum) const;
 
     private:

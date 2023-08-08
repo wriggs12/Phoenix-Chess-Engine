@@ -1,16 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
 
-# List all files containing tests. (Change as needed)
-set(TESTFILES        # All .cpp files in tests/
+set(TESTFILES
     main.cpp
 )
 
-set(TEST_MAIN unit_tests)   # Default name for test executable (change if you wish).
-set(TEST_RUNNER_PARAMS "")  # Any arguemnts to feed the test runner (change as needed).
+set(TEST_MAIN unit_tests)
+set(TEST_RUNNER_PARAMS "")
 
-# --------------------------------------------------------------------------------
-#                         Make Tests (no change needed).
-# --------------------------------------------------------------------------------
 add_executable(${TEST_MAIN} ${TESTFILES})
 target_link_libraries(${TEST_MAIN} PRIVATE ${LIBRARY_NAME} doctest)
 set_target_properties(${TEST_MAIN} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
@@ -22,6 +18,5 @@ set_target_properties(${TEST_MAIN} PROPERTIES
 )
 
 add_test(
-    # Use some per-module/project prefix so that it is easier to run only tests for this module
     NAME ${LIBRARY_NAME}.${TEST_MAIN}
     COMMAND ${TEST_MAIN} ${TEST_RUNNER_PARAMS})

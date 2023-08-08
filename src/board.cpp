@@ -13,14 +13,9 @@ PheonixBoard::PheonixBoard(const std::string& fen)
     getFenBoard();
 }
 
-PheonixBoard::PheonixBoard(const PheonixBoard& other)
+PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.getFenBoard())
 {
-    std::cout << other.isDraw();
 }
-
-// PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.generateFEN())
-// {
-// }
 
 // PheonixBoard& PheonixBoard::opeartor=(const PheonixBoard& other)
 // {
@@ -154,7 +149,7 @@ Piece PheonixBoard::getPiece(int square) const
     return EMPTY;
 }
 
-std::string PheonixBoard::generateFEN()
+std::string PheonixBoard::generateFEN() const
 {
     std::string fen = "";
 
@@ -175,13 +170,13 @@ std::string PheonixBoard::generateFEN()
         fen += " b ";
     }
 
-    if (castlingRights[WHITE].first)
+    if (castlingRights.at(WHITE).first)
         fen += 'K';
-    if (castlingRights[WHITE].second)
+    if (castlingRights.at(WHITE).second)
         fen += 'Q';
-    if (castlingRights[BLACK].first)
+    if (castlingRights.at(BLACK).first)
         fen += 'k';
-    if (castlingRights[BLACK].second)
+    if (castlingRights.at(BLACK).second)
         fen += 'q';
 
     
@@ -227,7 +222,7 @@ BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
     return board[boardType];
 }
 
-std::string PheonixBoard::getFenBoard()
+std::string PheonixBoard::getFenBoard() const
 {
     return generateFEN();
 }
