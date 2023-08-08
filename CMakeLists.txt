@@ -24,7 +24,7 @@ set(SOURCES
 set(TESTFILES
     tests/main.cpp
 )
-set(LIBRARY_NAME engine)
+set(LIBRARY_NAME PHEONIX_ENGINE)
 
 
 add_library(${LIBRARY_NAME} OBJECT ${SOURCES})

@@ -17,10 +17,35 @@ PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.getFe
 {
 }
 
-// PheonixBoard& PheonixBoard::opeartor=(const PheonixBoard& other)
-// {
+PheonixBoard& PheonixBoard::operator=(const PheonixBoard& other)
+{
+    if (*this == other)
+        return *this;
 
-// }
+    for (int i = 0; i < BOARD_SIZE; ++i)
+    {
+        const BitBoard& temp = other.board[i];
+        board[i] = temp;
+    }
+
+    const FEN& otherFEN = other.boardFEN;
+
+    this->boardFEN.fen = otherFEN.fen;
+    this->boardFEN.currentMove = otherFEN.currentMove;
+    this->boardFEN.enPassantSquare = otherFEN.enPassantSquare;
+    this->boardFEN.halfMoves = otherFEN.halfMoves;
+    this->boardFEN.fullMoves = otherFEN.fullMoves;
+
+    this->boardFEN.castlingRights[WHITE] = otherFEN.castlingRights.at(WHITE);
+    this->boardFEN.castlingRights[BLACK] = otherFEN.castlingRights.at(BLACK);
+
+    return *this;
+}
+
+bool PheonixBoard::operator==(const PheonixBoard& other)
+{
+    return (other.getFenBoard() == this->getFenBoard());
+}
 
 // TODO: Make This Better, Reverse Top to bottom
 std::ostream& PheonixBoard::operator<<(std::ostream& os)
@@ -62,27 +87,9 @@ std::ostream& PheonixBoard::operator<<(std::ostream& os)
 
 void PheonixBoard::loadFEN(const std::string& fen)
 {
-    uint64_t curSquare = 1;
     std::string::const_iterator citr = fen.begin();
 
-    for (; citr != fen.end(); ++citr)
-    {
-        if (*citr == ' ')
-        {
-            ++citr;
-            break;
-        }
-        else if (*citr == '/')
-            continue;
-        else if (isdigit(*citr))
-            curSquare = curSquare << (*citr - '0');
-        else
-        {
-            BitBoard& temp = board[pieceMap.at(*citr)];
-            temp = temp | curSquare;
-            curSquare = curSquare << 1;
-        }
-    }
+    loadBoard(fen, citr);
 
     boardFEN.fen = fen;
 
@@ -135,6 +142,30 @@ void PheonixBoard::loadFEN(const std::string& fen)
 
     citr++;
     boardFEN.fullMoves = *citr - '0';
+}
+
+void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
+{
+    uint64_t curSquare = 1;
+
+    for (; citr != fen.end(); ++citr)
+    {
+        if (*citr == ' ')
+        {
+            ++citr;
+            break;
+        }
+        else if (*citr == '/')
+            continue;
+        else if (isdigit(*citr))
+            curSquare = curSquare << (*citr - '0');
+        else
+        {
+            BitBoard& temp = board[pieceMap.at(*citr)];
+            temp = temp | curSquare;
+            curSquare = curSquare << 1;
+        }
+    }
 }
 
 Piece PheonixBoard::getPiece(int square) const

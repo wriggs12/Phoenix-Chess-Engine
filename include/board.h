@@ -14,8 +14,10 @@ class PheonixBoard {
     public:
         PheonixBoard(const std::string& fen = DEFAULT_POSITION);
         PheonixBoard(const PheonixBoard& other);
+
         PheonixBoard& operator=(const PheonixBoard& other);
         std::ostream& operator<<(std::ostream& os);
+        bool operator==(const PheonixBoard& other);
 
         ~PheonixBoard() = default;
 
@@ -30,6 +32,7 @@ class PheonixBoard {
 
     private:
         void loadFEN(const std::string& fen);
+        void loadBoard(const std::string& fen, std::string::const_iterator& citr);
         std::string generateFEN() const;
         std::string getLine(int lineNum) const;
 
