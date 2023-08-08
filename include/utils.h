@@ -82,9 +82,18 @@ const std::unordered_map<int, Piece> numPieceMap = {
     {11, BLACKKING}
 };
 
-struct square {
+struct Square {
     char file;
     int rank;
+};
+
+struct FEN {
+    std::string fen;
+    std::unordered_map<Color, std::pair<bool, bool>> castlingRights;
+    Color currentMove;
+    Square enPassantSquare;
+    int halfMoves;
+    int fullMoves;
 };
 
 #endif

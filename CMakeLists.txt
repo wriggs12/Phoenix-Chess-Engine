@@ -16,7 +16,9 @@ include(Doctest)
 set(SOURCES
     src/board.cpp
     src/engine.cpp
-    src/pieces.cpp
+    src/evaluate.cpp
+    src/moveManager.cpp
+    src/play.cpp
 )
 
 set(TESTFILES

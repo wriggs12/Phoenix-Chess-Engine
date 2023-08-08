@@ -84,55 +84,57 @@ void PheonixBoard::loadFEN(const std::string& fen)
         }
     }
 
+    boardFEN.fen = fen;
+
     if (*citr++ == 'w')
     {
-        currentMove = WHITE;
+        boardFEN.currentMove = WHITE;
         citr++;
     }
     else
     {
-        currentMove = BLACK;
+        boardFEN.currentMove = BLACK;
         citr++;
     }
 
-    castlingRights[WHITE] = {false, false};
+    boardFEN.castlingRights[WHITE] = {false, false};
     while (isupper(*citr))
     {
         if (*citr++ == 'K')
         {
-            castlingRights[WHITE].first = true;
+            boardFEN.castlingRights[WHITE].first = true;
         }
         else
         {
-            castlingRights[WHITE].second = true;
+            boardFEN.castlingRights[WHITE].second = true;
         }
     }
 
-    castlingRights[BLACK] = {false, false};
+    boardFEN.castlingRights[BLACK] = {false, false};
     while (islower(*citr))
     {
         if (*citr++ == 'k')
         {
-            castlingRights[BLACK].first = true;
+            boardFEN.castlingRights[BLACK].first = true;
         }
         else
         {
-            castlingRights[BLACK].second = true;
+            boardFEN.castlingRights[BLACK].second = true;
         }
     }
 
     citr++;
     if (*citr++ != '-')
     {
-        enPassantSquare.file = *citr++;
-        enPassantSquare.rank = *citr++ - '0';
+        boardFEN.enPassantSquare.file = *citr++;
+        boardFEN.enPassantSquare.rank = *citr++ - '0';
     }
 
     citr++;
-    halfMoves = *citr++ - '0';
+    boardFEN.halfMoves = *citr++ - '0';
 
     citr++;
-    fullMoves = *citr - '0';
+    boardFEN.fullMoves = *citr - '0';
 }
 
 Piece PheonixBoard::getPiece(int square) const
@@ -149,73 +151,71 @@ Piece PheonixBoard::getPiece(int square) const
     return EMPTY;
 }
 
-std::string PheonixBoard::generateFEN() const
-{
-    std::string fen = "";
+// std::string PheonixBoard::generateFEN() const
+// {
+//     std::string fen = "";
 
-    for (int i = 0; i < 8; ++i)
-    {
-        fen += getLine(i);
+//     for (int i = 0; i < 8; ++i)
+//     {
+//         fen += getLine(i);
 
-        if (i != 7)
-            fen += '/';
-    }
+//         if (i != 7)
+//             fen += '/';
+//     }
 
-    if (currentMove == WHITE)
-    {
-        fen += " w ";
-    }
-    else
-    {
-        fen += " b ";
-    }
+//     if (currentMove == WHITE)
+//     {
+//         fen += " w ";
+//     }
+//     else
+//     {
+//         fen += " b ";
+//     }
 
-    if (castlingRights.at(WHITE).first)
-        fen += 'K';
-    if (castlingRights.at(WHITE).second)
-        fen += 'Q';
-    if (castlingRights.at(BLACK).first)
-        fen += 'k';
-    if (castlingRights.at(BLACK).second)
-        fen += 'q';
+//     if (boardFEN.castlingRights.at(WHITE).first)
+//         fen += 'K';
+//     if (boardFEN.castlingRights.at(WHITE).second)
+//         fen += 'Q';
+//     if (boardFEN.castlingRights.at(BLACK).first)
+//         fen += 'k';
+//     if (boardFEN.castlingRights.at(BLACK).second)
+//         fen += 'q';
 
-    
+//     return fen;
+// }
 
-    return fen;
-}
+// std::string PheonixBoard::getLine(int lineNum) const
+// {
+//     std::string line = "";
 
-std::string PheonixBoard::getLine(int lineNum) const
-{
-    std::string line = "";
+//     uint64_t temp = 0x1;
+//     temp = temp << (8 * lineNum);
+//     int curStreak = 0;
 
-    uint64_t temp = 0x1;
-    temp = temp << (8 * lineNum);
-    int curStreak = 0;
+//     for (int i = 0; i < 8; ++i)
+//     {
+//         const Piece curPiece = getPiece(lineNum*8 + i);
 
-    for (int i = 0; i < 8; ++i)
-    {
-        const Piece curPiece = getPiece(lineNum*8 + i);
+//         if (curPiece == EMPTY)
+//             curStreak++;
+//         else
+//         {
+//             if (curStreak != 0)
+//             {
+//                 line += std::to_string(curStreak);
+//                 curStreak = 0;
+//             }
 
-        if (curPiece == EMPTY)
-            curStreak++;
-        else
-        {
-            if (curStreak != 0)
-            {
-                line += std::to_string(curStreak);
-                curStreak = 0;
-            }
+//             line += pieceLetterMap.at(curPiece);
+//         }
+//         temp = temp << 1;
+//     }
 
-            line += pieceLetterMap.at(curPiece);
-        }
-        temp = temp << 1;
-    }
+//     if (curStreak != 0)
+//         line += std::to_string(curStreak);
 
-    if (curStreak != 0)
-        line += std::to_string(curStreak);
-
-    return line;
-}
+//     return line;
+// }
 
 BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 {
@@ -224,7 +224,7 @@ BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 
 std::string PheonixBoard::getFenBoard() const
 {
-    return generateFEN();
+    return boardFEN.fen;
 }
 
 
