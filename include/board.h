@@ -26,8 +26,9 @@ class PheonixBoard {
 
         bool isInCheck(Color) const;
         bool isDraw() const;
+        bool isOnBoard(int) const;
         bool move(Move &);
-        bool canCastle(Color) const;
+        std::pair<bool, bool> castle(Color) const;
         Piece getPiece(int) const;
 
     private:

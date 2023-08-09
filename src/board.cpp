@@ -215,7 +215,12 @@ bool PheonixBoard::isDraw() const
     return false;
 }
 
-bool PheonixBoard::canCastle(Color player) const
+std::pair<bool, bool> PheonixBoard::castle(Color player) const
 {
-    return false;
+    return boardFEN.castlingRights.at(player);
+}
+
+bool PheonixBoard::isOnBoard(int square) const
+{
+    return true;
 }
