@@ -7,12 +7,23 @@
 #ifndef MOVEMANAGER_H
 #define MOVEMANAGER_H
 
+#include <board.h>
+
 class MoveManager {
     public:
-        MoveManager();
-        ~MoveManager();
+        MoveManager(MoveManager &) = delete;
+        void operator=(const MoveManager &) = delete;
+        
+        static MoveManager *GetInstance();
+        bool updateBoard(Move);
 
     private:
-}
+        MoveManager() : board(PheonixBoard())
+        {
+        }
+
+        static MoveManager* moveManager_;
+        PheonixBoard board;
+};
 
 #endif

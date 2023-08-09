@@ -9,13 +9,14 @@
 
 #include <cstdint>
 #include <unordered_map>
+#include <string>
 
 typedef uint64_t BitBoard;
 static const int BOARD_SIZE = 12;
 
 #define DEFAULT_POSITION std::string("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkg - 0 1") //FEN format
 
-enum Piece {
+enum Piece : uint8_t {
     WHITEPAWN,
     WHITEROOK,
     WHITEKNIGHT,

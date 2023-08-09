@@ -12,27 +12,27 @@
 
 class PheonixBoard {
     public:
-        PheonixBoard(const std::string& fen = DEFAULT_POSITION);
-        PheonixBoard(const PheonixBoard& other);
+        PheonixBoard(const std::string & = DEFAULT_POSITION);
+        PheonixBoard(const PheonixBoard &);
 
-        PheonixBoard& operator=(const PheonixBoard& other);
-        friend std::ostream& operator<<(std::ostream& os, const PheonixBoard& other);
-        bool operator==(const PheonixBoard& other);
+        PheonixBoard& operator=(const PheonixBoard &);
+        friend std::ostream& operator<<(std::ostream &, const PheonixBoard &);
+        bool operator==(const PheonixBoard &);
 
         ~PheonixBoard() = default;
 
-        BitBoard getPieceBoard(Piece boardType) const;
+        BitBoard getPieceBoard(Piece) const;
         std::string getFenBoard() const;
 
-        bool isInCheck(Color player) const;
+        bool isInCheck(Color) const;
         bool isDraw() const;
-        bool move(Move mv);
-        bool canCastle(Color player) const;
-        Piece getPiece(int square) const;
+        bool move(Move);
+        bool canCastle(Color) const;
+        Piece getPiece(int) const;
 
     private:
-        void loadFEN(const std::string& fen);
-        void loadBoard(const std::string& fen, std::string::const_iterator& citr);
+        void loadFEN(const std::string &);
+        void loadBoard(const std::string &, std::string::const_iterator &);
         void updateFEN();
 
     private:

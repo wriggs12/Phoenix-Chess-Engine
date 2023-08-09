@@ -147,6 +147,7 @@ void PheonixBoard::loadFEN(const std::string& fen)
 //TODO: Implement Move
 bool PheonixBoard::move(Move mv)
 {
+    updateFEN();
     return true;
 }
 

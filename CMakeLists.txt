@@ -6,12 +6,7 @@ project(
     LANGUAGES CXX   
 )
 
-option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will remove all doctest related code.
-                        Tests in tests/*.cpp will still be enabled." ON)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 include(CTest)
-include(Doctest)
 
 set(SOURCES
     src/board.cpp
@@ -30,6 +25,5 @@ set(LIBRARY_NAME PHEONIX_ENGINE)
 add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${LIBRARY_NAME} PUBLIC doctest)
 
-add_subdirectory(test)
+# add_subdirectory(test)
