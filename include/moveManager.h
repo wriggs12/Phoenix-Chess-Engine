@@ -16,14 +16,17 @@ class MoveManager {
         void operator=(const MoveManager &) = delete;
         
         static MoveManager *GetInstance();
-        bool updateBoard(Move);
+
+        bool updateBoard(Move &);
+        PheonixBoard getPosition(std::vector<Move> &);
+        PheonixBoard& board();
 
     protected:
-        MoveManager() : board(PheonixBoard())
+        MoveManager() : activeBoard(PheonixBoard())
         {
         }
         ~MoveManager() = default;
-        PheonixBoard board;
+        PheonixBoard activeBoard;
 
     private:
         static MoveManager* moveManager_;

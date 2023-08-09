@@ -26,7 +26,7 @@ class PheonixBoard {
 
         bool isInCheck(Color) const;
         bool isDraw() const;
-        bool move(Move);
+        bool move(Move &);
         bool canCastle(Color) const;
         Piece getPiece(int) const;
 

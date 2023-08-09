@@ -20,7 +20,23 @@ MoveManager* MoveManager::GetInstance()
     return moveManager_;
 }
 
-bool MoveManager::updateBoard(Move mv)
+bool MoveManager::updateBoard(Move& mv)
 {
-    return true;
+    return activeBoard.move(mv);
+}
+
+PheonixBoard& MoveManager::board()
+{
+    return activeBoard;
+}
+
+PheonixBoard MoveManager::getPosition(std::vector<Move>& moves)
+{
+    PheonixBoard board(activeBoard.getFenBoard());
+    for (auto mv : moves)
+    {
+        board.move(mv);
+    }
+
+    return board;
 }
