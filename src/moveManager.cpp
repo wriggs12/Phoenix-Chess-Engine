@@ -6,8 +6,12 @@
 
 #include <moveManager.h>
 
+MoveManager* MoveManager::moveManager_{nullptr};
+std::mutex MoveManager::mutex_;
+
 MoveManager* MoveManager::GetInstance()
 {
+    std::lock_guard<std::mutex> lock(mutex_);
     if (moveManager_ == nullptr)
     {
         moveManager_ = new MoveManager();
@@ -18,4 +22,5 @@ MoveManager* MoveManager::GetInstance()
 
 bool MoveManager::updateBoard(Move mv)
 {
+    return true;
 }

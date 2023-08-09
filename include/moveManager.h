@@ -8,6 +8,7 @@
 #define MOVEMANAGER_H
 
 #include <board.h>
+#include <mutex>
 
 class MoveManager {
     public:
@@ -17,13 +18,16 @@ class MoveManager {
         static MoveManager *GetInstance();
         bool updateBoard(Move);
 
-    private:
+    protected:
         MoveManager() : board(PheonixBoard())
         {
         }
-
-        static MoveManager* moveManager_;
+        ~MoveManager() = default;
         PheonixBoard board;
+
+    private:
+        static MoveManager* moveManager_;
+        static std::mutex mutex_;
 };
 
 #endif
