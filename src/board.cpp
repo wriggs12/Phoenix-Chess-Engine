@@ -149,13 +149,31 @@ void PheonixBoard::loadFEN(const std::string& fen)
 //TODO: Implement Move
 bool PheonixBoard::move(Move& mv)
 {
+    BitBoard& pieceBoard = getPieceBoard(mv.piece);
+
+    uint64_t mask = 0x1;
+
+    mask = ~(mask << mv.start);
+    pieceBoard = pieceBoard & mask;
+    mask = 0x1 << mv.end;
+    pieceBoard = pieceBoard | mask;
+
+    Piece captured = getPiece(mv.end);
+    if (captured != EMPTY)
+    {
+        
+    }
+
     updateFEN();
     return true;
 }
 
 void PheonixBoard::updateFEN()
 {
-
+    if (boardFEN.currentMove == WHITE)
+        boardFEN.currentMove = BLACK;
+    else
+        boardFEN.currentMove = WHITE;
 }
 
 void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
@@ -184,21 +202,21 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
 
 Piece PheonixBoard::getPiece(Square s) const
 {
-    uint64_t temp = 1;
-    temp = temp << s;
+    uint64_t square = 1;
+    square = square << s;
     
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        if ((temp & board[numPieceMap.at(i)]) != 0)
+        if ((square & board[numPieceMap.at(i)]) != 0)
             return numPieceMap.at(i);
     }
 
     return EMPTY;
 }
 
-BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
+BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
 {
-    return board[boardType];
+    return board.at(boardType);
 }
 
 std::string PheonixBoard::getFenBoard() const
@@ -227,7 +245,7 @@ bool PheonixBoard::isOnBoard(Square s) const
     return (0 <= s && s < 64);
 }
 
-std::vector<Move>& getValidMoves(Piece& p)
+std::vector<Move>& PheonixBoard::getValidMoves(Piece& p)
 {
-    return PheonixBoard::validMoves;
+    return validMoves;
 }

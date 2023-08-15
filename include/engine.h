@@ -14,6 +14,8 @@ class PheonixEngine
     public:
         PheonixEngine();
         ~PheonixEngine();
+
+    private:
 };
 
 #endif

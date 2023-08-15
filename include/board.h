@@ -21,29 +21,28 @@ class PheonixBoard {
 
         ~PheonixBoard() = default;
 
-        BitBoard getPieceBoard(Piece) const;
+        BitBoard& getPieceBoard(Piece) const;
         std::string getFenBoard() const;
 
         bool move(Move &);
-
         bool isInCheck(Color) const;
         bool isDraw() const;
         bool isOnBoard(Square) const;
         std::pair<bool, bool> castle(Color) const;
-        static std::vector<Move>& getValidMoves(Piece &);
         Piece getPiece(Square) const;
 
-    public:
-        static inline std::vector<Move> validMoves;
+        friend class PheonixEngine;
 
     private:
         void loadFEN(const std::string &);
         void loadBoard(const std::string &, std::string::const_iterator &);
         void updateFEN();
+        std::vector<Move>& getValidMoves(Piece &);
 
     private:
-        std::vector<BitBoard> board;
+        static std::vector<BitBoard> board;
         FEN boardFEN;
+        static std::vector<Move> validMoves;
 };
 
 #endif

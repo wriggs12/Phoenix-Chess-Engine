@@ -16,14 +16,19 @@ set(SOURCES
     src/play.cpp
 )
 
-set(TESTFILES
-    tests/main.cpp
-)
 set(LIBRARY_NAME PHEONIX_ENGINE)
 
+set(TEST_NAME UNIT_TESTS)
 
-add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
+SET(TEST_SOURCES
+    test/main.cpp
+)
+
+add_library(${LIBRARY_NAME} STATIC ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-# add_subdirectory(test)
+# enable_testing()
+# add_executable(${TEST_NAME} ${TEST_SOURCES})
+
+# target_link_libraries(${TEST_NAME} PUBLIC ${LIBRARY_NAME})
