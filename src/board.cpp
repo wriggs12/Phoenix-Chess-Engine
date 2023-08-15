@@ -133,8 +133,10 @@ void PheonixBoard::loadFEN(const std::string& fen)
     citr++;
     if (*citr++ != '-')
     {
-        boardFEN.enPassantSquare.file = *citr++;
-        boardFEN.enPassantSquare.rank = *citr++ - '0';
+        int file = *citr++ - 'a';
+        int rank = *citr++ - '0';
+
+        boardFEN.enPassantSquare = (file * 8) + rank;
     }
 
     citr++;
@@ -180,10 +182,10 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
     }
 }
 
-Piece PheonixBoard::getPiece(int square) const
+Piece PheonixBoard::getPiece(Square s) const
 {
     uint64_t temp = 1;
-    temp = temp << square;
+    temp = temp << s;
     
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
@@ -220,7 +222,12 @@ std::pair<bool, bool> PheonixBoard::castle(Color player) const
     return boardFEN.castlingRights.at(player);
 }
 
-bool PheonixBoard::isOnBoard(int square) const
+bool PheonixBoard::isOnBoard(Square s) const
 {
-    return true;
+    return (0 <= s && s < 64);
+}
+
+std::vector<Move>& getValidMoves(Piece& p)
+{
+    return PheonixBoard::validMoves;
 }

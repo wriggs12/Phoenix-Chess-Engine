@@ -7,6 +7,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "spdlog/spdlog.h"
+
 #include <cstdint>
 #include <unordered_map>
 #include <string>
@@ -83,10 +85,7 @@ const std::unordered_map<int, Piece> numPieceMap = {
     {11, BLACKKING}
 };
 
-struct Square {
-    char file;
-    int rank;
-};
+typedef int Square;
 
 struct FEN {
     std::string fen;
@@ -100,6 +99,7 @@ struct FEN {
 struct Move {
     Square start;
     Square end;
+    Piece piece;
 };
 
 #endif

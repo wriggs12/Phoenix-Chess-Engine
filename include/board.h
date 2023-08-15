@@ -24,12 +24,17 @@ class PheonixBoard {
         BitBoard getPieceBoard(Piece) const;
         std::string getFenBoard() const;
 
+        bool move(Move &);
+
         bool isInCheck(Color) const;
         bool isDraw() const;
-        bool isOnBoard(int) const;
-        bool move(Move &);
+        bool isOnBoard(Square) const;
         std::pair<bool, bool> castle(Color) const;
-        Piece getPiece(int) const;
+        static std::vector<Move>& getValidMoves(Piece &);
+        Piece getPiece(Square) const;
+
+    public:
+        static inline std::vector<Move> validMoves;
 
     private:
         void loadFEN(const std::string &);
