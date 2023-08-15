@@ -149,8 +149,17 @@ void PheonixBoard::loadFEN(const std::string& fen)
 //TODO: Implement Move
 bool PheonixBoard::move(Move& mv)
 {
-    BitBoard& pieceBoard = getPieceBoard(mv.piece);
+    updateFEN(mv);
+    updateValidMoves();
 
+    return true;
+}
+
+void PheonixBoard::updateFEN(Move& mv)
+{
+    //Update Board
+    BitBoard& pieceBoard = getPieceBoard(mv.piece);
+    Piece captured = getPiece(mv.end);
     uint64_t mask = 0x1;
 
     mask = ~(mask << mv.start);
@@ -158,22 +167,25 @@ bool PheonixBoard::move(Move& mv)
     mask = 0x1 << mv.end;
     pieceBoard = pieceBoard | mask;
 
-    Piece captured = getPiece(mv.end);
     if (captured != EMPTY)
     {
-        
+        mask = ~mask;
+        pieceBoard = getPieceBoard(captured);
+        pieceBoard = pieceBoard & mask;
+        boardFEN.halfMoves = 0;
     }
+    else if (mv.piece == WHITEPAWN || mv.piece == BLACKPAWN)
+        boardFEN.halfMoves = 0;
+    else
+        boardFEN.halfMoves++;
 
-    updateFEN();
-    return true;
-}
-
-void PheonixBoard::updateFEN()
-{
     if (boardFEN.currentMove == WHITE)
         boardFEN.currentMove = BLACK;
     else
+    {
         boardFEN.currentMove = WHITE;
+        boardFEN.fullMoves++;
+    }
 }
 
 void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
@@ -248,4 +260,9 @@ bool PheonixBoard::isOnBoard(Square s) const
 std::vector<Move>& PheonixBoard::getValidMoves(Piece& p)
 {
     return validMoves;
+}
+
+void PheonixBoard::updateValidMoves()
+{
+
 }

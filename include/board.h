@@ -36,7 +36,8 @@ class PheonixBoard {
     private:
         void loadFEN(const std::string &);
         void loadBoard(const std::string &, std::string::const_iterator &);
-        void updateFEN();
+        void updateFEN(Move &);
+        void updateValidMoves();
         std::vector<Move>& getValidMoves(Piece &);
 
     private:
