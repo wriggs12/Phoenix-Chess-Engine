@@ -11,6 +11,7 @@ PheonixBoard::PheonixBoard(const std::string& fen)
 {
     board = std::vector<BitBoard>(BOARD_SIZE, 0);
     loadFEN(fen);
+    updateValidMoves();
 }
 
 PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.getFenBoard())
@@ -169,13 +170,19 @@ void PheonixBoard::updateFEN(Move& mv)
 
     if (captured != EMPTY)
     {
-        mask = ~mask;
         pieceBoard = getPieceBoard(captured);
-        pieceBoard = pieceBoard & mask;
+        pieceBoard = pieceBoard & ~mask;
         boardFEN.halfMoves = 0;
     }
     else if (mv.piece == WHITEPAWN || mv.piece == BLACKPAWN)
+    {
         boardFEN.halfMoves = 0;
+
+        if (mv.end / 8 == 3 || mv.end / 8 == 4)
+            boardFEN.enPassantSquare = mv.end;
+        else
+            boardFEN.enPassantSquare = -1;
+    }
     else
         boardFEN.halfMoves++;
 
@@ -185,6 +192,20 @@ void PheonixBoard::updateFEN(Move& mv)
     {
         boardFEN.currentMove = WHITE;
         boardFEN.fullMoves++;
+    }
+
+    //Update FEN String
+    std::string::const_iterator citr = boardFEN.fen.begin();
+
+    int row = 0;
+    int startingRow = mv.start / 8;
+
+    for (; citr != boardFEN.fen.end(); ++citr)
+    {
+        if (row == startingRow)
+            break;
+        if (*citr == '/')
+            row++;
     }
 }
 
@@ -236,17 +257,6 @@ std::string PheonixBoard::getFenBoard() const
     return boardFEN.fen;
 }
 
-//TODO: Implement Logic
-bool PheonixBoard::isInCheck(Color player) const
-{
-    return false;
-}
-
-bool PheonixBoard::isDraw() const
-{
-    return false;
-}
-
 std::pair<bool, bool> PheonixBoard::castle(Color player) const
 {
     return boardFEN.castlingRights.at(player);
@@ -259,7 +269,18 @@ bool PheonixBoard::isOnBoard(Square s) const
 
 std::vector<Move>& PheonixBoard::getValidMoves(Piece& p)
 {
-    return validMoves;
+    return validMoves.at(p);
+}
+
+//TODO: Implement Logic
+bool PheonixBoard::isInCheck(Color player) const
+{
+    return false;
+}
+
+bool PheonixBoard::isDraw() const
+{
+    return false;
 }
 
 void PheonixBoard::updateValidMoves()

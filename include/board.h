@@ -43,7 +43,7 @@ class PheonixBoard {
     private:
         static std::vector<BitBoard> board;
         FEN boardFEN;
-        static std::vector<Move> validMoves;
+        static std::unordered_map<Piece, std::vector<Move>> validMoves;
 };
 
 #endif
