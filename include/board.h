@@ -13,25 +13,20 @@
 class PheonixBoard {
     public:
         PheonixBoard(const std::string & = DEFAULT_POSITION);
-        PheonixBoard(const PheonixBoard &);
-
-        PheonixBoard& operator=(const PheonixBoard &);
-        friend std::ostream& operator<<(std::ostream &, const PheonixBoard &);
-        bool operator==(const PheonixBoard &);
-
+        PheonixBoard(PheonixBoard &);
         ~PheonixBoard() = default;
 
-        BitBoard& getPieceBoard(Piece) const;
+        PheonixBoard& operator=(const PheonixBoard &);
+        bool operator==(const PheonixBoard &);
+
+        // bool move(Move &);
+        // BitBoard& getPieceBoard(Piece) const;
         std::string getFenBoard() const;
-
-        bool move(Move &);
-        bool isInCheck(Color) const;
-        bool isDraw() const;
-        bool isOnBoard(Square) const;
-        std::pair<bool, bool> castle(Color) const;
-        Piece getPiece(Square) const;
-
-        friend class PheonixEngine;
+        // bool isInCheck(Color) const;
+        // bool isDraw() const;
+        // bool isOnBoard(Square) const;
+        // std::pair<bool, bool> castle(Color) const;
+        // Piece getPiece(Square) const;
 
     private:
         void loadFEN(const std::string &);
@@ -41,9 +36,11 @@ class PheonixBoard {
         std::vector<Move>& getValidMoves(Piece &);
 
     private:
-        static std::vector<BitBoard> board;
+        std::vector<BitBoard> board;
         FEN boardFEN;
-        static std::unordered_map<Piece, std::vector<Move>> validMoves;
+        std::unordered_map<Piece, std::vector<Move>> validMoves;
 };
+
+std::ostream& operator<<(std::ostream &, const PheonixBoard &);
 
 #endif

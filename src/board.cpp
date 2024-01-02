@@ -14,7 +14,7 @@ PheonixBoard::PheonixBoard(const std::string& fen)
     updateValidMoves();
 }
 
-PheonixBoard::PheonixBoard(const PheonixBoard& other) : PheonixBoard(other.getFenBoard())
+PheonixBoard::PheonixBoard(PheonixBoard& other) : PheonixBoard(other.getFenBoard())
 {
 }
 
@@ -49,7 +49,7 @@ bool PheonixBoard::operator==(const PheonixBoard& other)
 }
 
 // TODO: Make This Better, Reverse Top to bottom
-std::ostream& operator<<(std::ostream& os, const PheonixBoard& other)
+std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
 {
     std::unordered_map<int, std::string> tempMap = {
         {0,"White Pawn"},
@@ -66,6 +66,8 @@ std::ostream& operator<<(std::ostream& os, const PheonixBoard& other)
         {11,"Black King"},
     };
 
+    std::string board = other.getFenBoard();
+
     for (int k = 0; k < BOARD_SIZE; k++)
     {
         os << tempMap[k] << ": " << std::endl;
@@ -75,7 +77,7 @@ std::ostream& operator<<(std::ostream& os, const PheonixBoard& other)
         {
             for (int j = 0; j < 8; j++)
             {
-                os << ((other.board[k] & curSquare) >> ((i*8) + j));
+                os << ((board[k] & curSquare) >> ((i*8) + j));
                 curSquare = curSquare << 1;
             }
             os << std::endl;
@@ -95,15 +97,10 @@ void PheonixBoard::loadFEN(const std::string& fen)
     boardFEN.fen = fen;
 
     if (*citr++ == 'w')
-    {
         boardFEN.currentMove = WHITE;
-        citr++;
-    }
     else
-    {
         boardFEN.currentMove = BLACK;
-        citr++;
-    }
+    citr++;
 
     boardFEN.castlingRights[WHITE] = {false, false};
     while (isupper(*citr))
@@ -148,66 +145,66 @@ void PheonixBoard::loadFEN(const std::string& fen)
 }
 
 //TODO: Implement Move
-bool PheonixBoard::move(Move& mv)
-{
-    updateFEN(mv);
-    updateValidMoves();
+// bool PheonixBoard::move(Move& mv)
+// {
+//     updateFEN(mv);
+//     updateValidMoves();
 
-    return true;
-}
+//     return true;
+// }
 
-void PheonixBoard::updateFEN(Move& mv)
-{
-    //Update Board
-    BitBoard& pieceBoard = getPieceBoard(mv.piece);
-    Piece captured = getPiece(mv.end);
-    uint64_t mask = 0x1;
+// void PheonixBoard::updateFEN(Move& mv)
+// {
+//     //Update Board
+//     BitBoard& pieceBoard = getPieceBoard(mv.piece);
+//     Piece captured = getPiece(mv.end);
+//     uint64_t mask = 0x1;
 
-    mask = ~(mask << mv.start);
-    pieceBoard = pieceBoard & mask;
-    mask = 0x1 << mv.end;
-    pieceBoard = pieceBoard | mask;
+//     mask = ~(mask << mv.start);
+//     pieceBoard = pieceBoard & mask;
+//     mask = 0x1 << mv.end;
+//     pieceBoard = pieceBoard | mask;
 
-    if (captured != EMPTY)
-    {
-        pieceBoard = getPieceBoard(captured);
-        pieceBoard = pieceBoard & ~mask;
-        boardFEN.halfMoves = 0;
-    }
-    else if (mv.piece == WHITEPAWN || mv.piece == BLACKPAWN)
-    {
-        boardFEN.halfMoves = 0;
+//     if (captured != EMPTY)
+//     {
+//         pieceBoard = getPieceBoard(captured);
+//         pieceBoard = pieceBoard & ~mask;
+//         boardFEN.halfMoves = 0;
+//     }
+//     else if (mv.piece == WHITEPAWN || mv.piece == BLACKPAWN)
+//     {
+//         boardFEN.halfMoves = 0;
 
-        if (mv.end / 8 == 3 || mv.end / 8 == 4)
-            boardFEN.enPassantSquare = mv.end;
-        else
-            boardFEN.enPassantSquare = -1;
-    }
-    else
-        boardFEN.halfMoves++;
+//         if (mv.end / 8 == 3 || mv.end / 8 == 4)
+//             boardFEN.enPassantSquare = mv.end;
+//         else
+//             boardFEN.enPassantSquare = -1;
+//     }
+//     else
+//         boardFEN.halfMoves++;
 
-    if (boardFEN.currentMove == WHITE)
-        boardFEN.currentMove = BLACK;
-    else
-    {
-        boardFEN.currentMove = WHITE;
-        boardFEN.fullMoves++;
-    }
+//     if (boardFEN.currentMove == WHITE)
+//         boardFEN.currentMove = BLACK;
+//     else
+//     {
+//         boardFEN.currentMove = WHITE;
+//         boardFEN.fullMoves++;
+//     }
 
-    //Update FEN String
-    std::string::const_iterator citr = boardFEN.fen.begin();
+//     //Update FEN String
+//     std::string::const_iterator citr = boardFEN.fen.begin();
 
-    int row = 0;
-    int startingRow = mv.start / 8;
+//     int row = 0;
+//     int startingRow = mv.start / 8;
 
-    for (; citr != boardFEN.fen.end(); ++citr)
-    {
-        if (row == startingRow)
-            break;
-        if (*citr == '/')
-            row++;
-    }
-}
+//     for (; citr != boardFEN.fen.end(); ++citr)
+//     {
+//         if (row == startingRow)
+//             break;
+//         if (*citr == '/')
+//             row++;
+//     }
+// }
 
 void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
 {
@@ -233,55 +230,55 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
     }
 }
 
-Piece PheonixBoard::getPiece(Square s) const
-{
-    uint64_t square = 1;
-    square = square << s;
+// Piece PheonixBoard::getPiece(Square s) const
+// {
+//     uint64_t square = 1;
+//     square = square << s;
     
-    for (int i = 0; i < BOARD_SIZE; ++i)
-    {
-        if ((square & board[numPieceMap.at(i)]) != 0)
-            return numPieceMap.at(i);
-    }
+//     for (int i = 0; i < BOARD_SIZE; ++i)
+//     {
+//         if ((square & board[numPieceMap.at(i)]) != 0)
+//             return numPieceMap.at(i);
+//     }
 
-    return EMPTY;
-}
+//     return EMPTY;
+// }
 
-BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
-{
-    return board.at(boardType);
-}
+// BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
+// {
+//     return board.at(boardType);
+// }
 
 std::string PheonixBoard::getFenBoard() const
 {
     return boardFEN.fen;
 }
 
-std::pair<bool, bool> PheonixBoard::castle(Color player) const
-{
-    return boardFEN.castlingRights.at(player);
-}
+// std::pair<bool, bool> PheonixBoard::castle(Color player) const
+// {
+//     return boardFEN.castlingRights.at(player);
+// }
 
-bool PheonixBoard::isOnBoard(Square s) const
-{
-    return (0 <= s && s < 64);
-}
+// bool PheonixBoard::isOnBoard(Square s) const
+// {
+//     return (0 <= s && s < 64);
+// }
 
-std::vector<Move>& PheonixBoard::getValidMoves(Piece& p)
-{
-    return validMoves.at(p);
-}
+// std::vector<Move>& PheonixBoard::getValidMoves(Piece& p) const
+// {
+//     return validMoves.at(p);
+// }
 
 //TODO: Implement Logic
-bool PheonixBoard::isInCheck(Color player) const
-{
-    return false;
-}
+// bool PheonixBoard::isInCheck(Color player) const
+// {
+//     return false;
+// }
 
-bool PheonixBoard::isDraw() const
-{
-    return false;
-}
+// bool PheonixBoard::isDraw() const
+// {
+//     return false;
+// }
 
 void PheonixBoard::updateValidMoves()
 {

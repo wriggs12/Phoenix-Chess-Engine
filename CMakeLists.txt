@@ -28,6 +28,9 @@ add_library(${LIBRARY_NAME} STATIC ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
+add_executable(run src/main.cpp)
+target_link_libraries(run PUBLIC ${LIBRARY_NAME})
+
 # enable_testing()
 # add_executable(${TEST_NAME} ${TEST_SOURCES})
 

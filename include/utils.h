@@ -7,8 +7,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "spdlog/spdlog.h"
-
 #include <cstdint>
 #include <unordered_map>
 #include <string>

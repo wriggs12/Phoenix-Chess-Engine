@@ -1,16 +1,16 @@
 #include <board.h>
 #include "spdlog/spdlog.h"
 
-// TEST_CASE("Default/Copy Constructor")
-// {
-//     PheonixBoard a;
-//     PheonixBoard b(a);
+void Test()
+{
+    PheonixBoard a;
+    PheonixBoard b(a);
 
-//     spdlog::info("a: " + a.getFenBoard());
-//     spdlog::info("b: " + b.getFenBoard());
+    spdlog::info("a: " + a.getFenBoard());
+    spdlog::info("b: " + b.getFenBoard());
 
-//     CHECK(a.getFenBoard() == b.getFenBoard());
-// }
+    assert(a.getFenBoard() == b.getFenBoard());
+}
 
 // TEST_CASE("Copy Operator")
 // {
@@ -28,15 +28,15 @@
 //     CHECK(a == b);
 // }
 
-int main()
-{
-    PheonixBoard *b = new PheonixBoard();
-    Move m = {
-        0,
-        16,
-        WHITEROOK
-    };
-    b->move(m);
+// int main()
+// {
+//     PheonixBoard *b = new PheonixBoard();
+//     Move m = {
+//         0,
+//         16,
+//         WHITEROOK
+//     };
+//     b->move(m);
 
-    return 0;
-}
+//     return 0;
+// }
