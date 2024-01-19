@@ -66,18 +66,17 @@ std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
         {11,"Black King"},
     };
 
-    std::string board = other.getFenBoard();
-
     for (int k = 0; k < BOARD_SIZE; k++)
     {
         os << tempMap[k] << ": " << std::endl;
         uint64_t curSquare = 0x1;
+        BitBoard& board = other.getPieceBoard(numPieceMap.at(k));
 
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                os << ((board[k] & curSquare) >> ((i*8) + j));
+                os << ((board & curSquare) >> ((i*8) + j));
                 curSquare = curSquare << 1;
             }
             os << std::endl;
@@ -244,10 +243,10 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
 //     return EMPTY;
 // }
 
-// BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
-// {
-//     return board.at(boardType);
-// }
+BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
+{
+    return board.at(boardType);
+}
 
 std::string PheonixBoard::getFenBoard() const
 {

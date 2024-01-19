@@ -20,7 +20,7 @@ class PheonixBoard {
         bool operator==(const PheonixBoard &);
 
         // bool move(Move &);
-        // BitBoard& getPieceBoard(Piece) const;
+        BitBoard& getPieceBoard(Piece) const;
         std::string getFenBoard() const;
         // bool isInCheck(Color) const;
         // bool isDraw() const;
