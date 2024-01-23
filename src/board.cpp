@@ -70,7 +70,7 @@ std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
     {
         os << tempMap[k] << ": " << std::endl;
         uint64_t curSquare = 0x1;
-        BitBoard& board = other.getPieceBoard(numPieceMap.at(k));
+        BitBoard board = other.getPieceBoard(numPieceMap.at(k));
 
         for (int i = 0; i < 8; i++)
         {
@@ -243,7 +243,7 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
 //     return EMPTY;
 // }
 
-BitBoard& PheonixBoard::getPieceBoard(Piece boardType) const
+BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
 {
     return board.at(boardType);
 }
