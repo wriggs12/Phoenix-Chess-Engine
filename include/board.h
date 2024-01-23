@@ -19,21 +19,21 @@ class PheonixBoard {
         PheonixBoard& operator=(const PheonixBoard &);
         bool operator==(const PheonixBoard &);
 
-        // bool move(Move &);
+        bool move(Move &);
         BitBoard getPieceBoard(Piece) const;
         std::string getFenBoard() const;
-        // bool isInCheck(Color) const;
-        // bool isDraw() const;
-        // bool isOnBoard(Square) const;
-        // std::pair<bool, bool> castle(Color) const;
-        // Piece getPiece(Square) const;
+        bool isInCheck(Color) const;
+        bool isDraw() const;
+        bool isOnBoard(Square) const;
+        std::pair<bool, bool> castle(Color) const;
+        Piece getPiece(Square) const;
 
     private:
         void loadFEN(const std::string &);
         void loadBoard(const std::string &, std::string::const_iterator &);
         void updateFEN(Move &);
         void updateValidMoves();
-        std::vector<Move>& getValidMoves(Piece &);
+        std::vector<Move> getValidMoves(Piece &) const;
 
     private:
         std::vector<BitBoard> board;
