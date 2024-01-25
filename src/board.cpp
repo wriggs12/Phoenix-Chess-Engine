@@ -153,7 +153,7 @@ void PheonixBoard::updateFEN(Move& mv)
     pieceBoard = pieceBoard | mask;
 
     if (captured != EMPTY)
-    {
+    { 
         pieceBoard = getPieceBoard(captured);
         pieceBoard = pieceBoard & ~mask;
         boardFEN.halfMoves = 0;
