@@ -48,27 +48,11 @@ bool PheonixBoard::operator==(const PheonixBoard& other)
     return (other.getFenBoard() == this->getFenBoard());
 }
 
-// TODO: Make This Better, Reverse Top to bottom
 std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
 {
-    std::unordered_map<int, std::string> tempMap = {
-        {0,"White Pawn"},
-        {1,"White Rook"},
-        {2,"White Knight"},
-        {3,"White Bishop"},
-        {4,"White Queen"},
-        {5,"White King"},
-        {6,"Black Pawn"},
-        {7,"Black Rook"},
-        {8,"Black Knight"},
-        {9,"Black Bishop"},
-        {10,"Black Queen"},
-        {11,"Black King"},
-    };
-
     for (int k = 0; k < BOARD_SIZE; k++)
     {
-        os << tempMap[k] << ": " << std::endl;
+        os << pieceNameMap.at(numPieceMap.at(k)) << ": " << std::endl;
         uint64_t curSquare = 0x1;
         BitBoard board = other.getPieceBoard(numPieceMap.at(k));
 
@@ -146,8 +130,12 @@ void PheonixBoard::loadFEN(const std::string& fen)
 //TODO: Implement Move
 bool PheonixBoard::move(Move& mv)
 {
+    std::cout << boardFEN.fen << std::endl;
+
     updateFEN(mv);
     updateValidMoves();
+
+    std::cout << boardFEN.fen << std::endl;
 
     return true;
 }
