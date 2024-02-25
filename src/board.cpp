@@ -114,9 +114,11 @@ void PheonixBoard::loadFEN(const std::string& fen)
     boardFEN.fullMoves = *citr - '0';
 }
 
-//TODO: Implement Move
 bool PheonixBoard::move(Move& mv)
 {
+    if (!isOnBoard(mv.start) || !isOnBoard(mv.end))
+        return false;
+    
     LOG_F(INFO, "Moving %s from square %d to square %d", pieceNameMap.at(mv.piece).c_str(), mv.start, mv.end);
 
     updateFEN(mv);

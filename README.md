@@ -22,6 +22,7 @@ To Do:
 - min-max algorithm
 - beta-alpha pruning
 - multi-thread
+- CLI interface
 
 ## Authors
 
