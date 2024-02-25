@@ -11,7 +11,9 @@
 #include <unordered_map>
 #include <string>
 
-typedef uint64_t BitBoard;
+#include <loguru.hpp>
+
+typedef unsigned long long int BitBoard;
 static const int BOARD_SIZE = 12;
 
 #define DEFAULT_POSITION std::string("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkg - 0 1") //FEN format
@@ -101,7 +103,6 @@ const std::unordered_map<int, Piece> numPieceMap = {
 typedef int Square;
 
 struct FEN {
-    std::string fen;
     std::unordered_map<Color, std::pair<bool, bool>> castlingRights;
     Color currentMove;
     Square enPassantSquare;

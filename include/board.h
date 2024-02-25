@@ -13,15 +13,12 @@
 class PheonixBoard {
     public:
         PheonixBoard(const std::string & = DEFAULT_POSITION);
-        PheonixBoard(PheonixBoard &);
         ~PheonixBoard() = default;
-
         PheonixBoard& operator=(const PheonixBoard &);
-        bool operator==(const PheonixBoard &);
 
         bool move(Move &);
         BitBoard getPieceBoard(Piece) const;
-        std::string getFenBoard() const;
+        FEN getFenBoard() const;
         bool isInCheck(Color) const;
         bool isDraw() const;
         bool isOnBoard(Square) const;
@@ -39,6 +36,7 @@ class PheonixBoard {
         std::vector<BitBoard> board;
         FEN boardFEN;
         std::unordered_map<Piece, std::vector<Move>> validMoves;
+        void log_board(BitBoard);
 };
 
 std::ostream& operator<<(std::ostream &, const PheonixBoard &);

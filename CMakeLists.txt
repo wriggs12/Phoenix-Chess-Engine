@@ -14,6 +14,7 @@ set(SOURCES
     src/evaluate.cpp
     src/moveManager.cpp
     src/play.cpp
+    src/loguru.cpp
 )
 
 set(LIBRARY_NAME PHEONIX_ENGINE)
