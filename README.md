@@ -4,7 +4,7 @@
     <img alt="Last Commit" src="https://img.shields.io/github/last-commit/wriggs12/Phoenix-Chess-Engine">
     <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/wriggs12/Phoenix-Chess-Engine/ci.yml">
     <br/>
-    <a href="https://github.com/wriggs12/Huffman-Data-Compressor/blob/master/LICENSE">
+    <a href="https://github.com/wriggs12/Phoenix-Chess-Engine/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/wriggs12/Phoenix-Chess-Engine" alt="MIT License">
     </a>
     <a href="https://github.com/wriggs12">
@@ -12,7 +12,7 @@
     </a>
     <br/>
     <br/>
-    <img src="https://github.com/wriggs12/Phoenix-Chess-Engine/blob/master/Phoenix%20Logo.png">
+    <img src="https://github.com/wriggs12/Phoenix-Chess-Engine/blob/master/phoenix%20logo.png">
 </p>
 
 C++ Deterministic Chess Engine
