@@ -1,40 +1,32 @@
-name: CI
+name: CMake Tests
 
-on:
-  push:
-  pull_request:
+on: [push, workflow_dispatch]
 
 jobs:
-  build-and-test:
+  build:
+    runs-on: ubuntu-latest
 
-    name: ${{ matrix.toolchain }}
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        toolchain:
-          - linux-gcc
-
-        configuration:
-          - Debug
-
-        include:
-          - toolchain: linux-gcc
-            os: ubuntu-latest
-            compiler: gcc
+    defaults:
+      run:
+        shell: bash
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Configure (${{ matrix.configuration }})
-      run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+    - name: Configure CMake
+      run: cmake -S $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
 
-    - name: Build with ${{ matrix.compiler }}
-      run: cmake --build build --config ${{ matrix.configuration }}
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build .
 
     - name: Test
-      working-directory: build
-      env:
-        CTEST_OUTPUT_ON_FAILURE: 1
-      run: ctest -C ${{ matrix.configuration }}
+      working-directory: ${{runner.workspace}}/build
+      run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: test_results_xml
+        path: ${{runner.workspace}}/build/test-results/**/*.xml

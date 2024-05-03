@@ -1,3 +1,4 @@
 *.exe
 ./googletest/
 /build*
+./vscode
