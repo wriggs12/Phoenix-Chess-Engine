@@ -12,7 +12,7 @@
     </a>
     <br/>
     <br/>
-    <img src="https://github.com/wriggs12/Phoenix-Chess-Engine/blob/master/phoenix%20logo.png">
+    <img src="https://github.com/wriggs12/Phoenix-Chess-Engine/blob/master/phoenix%20logo.jpg">
 </p>
 
 C++ Deterministic Chess Engine
