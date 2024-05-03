@@ -6,6 +6,6 @@
 
 #include <engine.h>
 
-PheonixEngine::PheonixEngine()
+PhoenixEngine::PhoenixEngine()
 {
 }

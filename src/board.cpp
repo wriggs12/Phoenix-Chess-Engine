@@ -7,17 +7,27 @@
 #include <iostream>
 #include <board.h>
 
-PheonixBoard::PheonixBoard(const std::string& fen)
+PhoenixBoard::PhoenixBoard(const std::string&& fen)
 {
-    LOG_F(INFO, "Creating Board");
+    LOG_F(INFO, "Board Constructor Called");
 
     board = std::vector<BitBoard>(BOARD_SIZE, 0);
     loadFEN(fen);
     updateValidMoves();
 }
 
-PheonixBoard& PheonixBoard::operator=(const PheonixBoard& other)
+PhoenixBoard::PhoenixBoard(const PhoenixBoard& other)
+: board{other.board},
+  boardFEN{other.boardFEN},
+  validMoves{other.validMoves}
 {
+    LOG_F(INFO, "Board Copy Constructor Called");
+}
+
+PhoenixBoard& PhoenixBoard::operator=(const PhoenixBoard& other)
+{
+    LOG_F(INFO, "Board Copy Operator Called");
+
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
         const BitBoard& temp = other.board[i];
@@ -37,13 +47,16 @@ PheonixBoard& PheonixBoard::operator=(const PheonixBoard& other)
     return *this;
 }
 
-std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
+std::ostream& operator<<(std::ostream& os, const PhoenixBoard &other)
 {
+    LOG_F(INFO, "Board Output Operator Called");
+
     for (int k = 0; k < BOARD_SIZE; k++)
     {
-        os << pieceNameMap.at(numPieceMap.at(k)) << ": " << std::endl;
+        Piece curPiece = numPieceMap.at(k);
+        os << pieceNameMap.at(curPiece) << ": " << std::endl;
         uint64_t curSquare = 0x1;
-        BitBoard board = other.getPieceBoard(numPieceMap.at(k));
+        BitBoard board = other.getPieceBoard(curPiece);
 
         for (int i = 0; i < 8; i++)
         {
@@ -60,8 +73,10 @@ std::ostream& operator<<(std::ostream& os, const PheonixBoard &other)
     return os;
 }
 
-void PheonixBoard::loadFEN(const std::string& fen)
+void PhoenixBoard::loadFEN(const std::string& fen)
 {
+    LOG_F(INFO, "Loading FEN");
+
     std::string::const_iterator citr = fen.begin();
 
     loadBoard(fen, citr);
@@ -114,24 +129,28 @@ void PheonixBoard::loadFEN(const std::string& fen)
     boardFEN.fullMoves = *citr - '0';
 }
 
-bool PheonixBoard::move(Move& mv)
+bool PhoenixBoard::move(Move& mv)
 {
+    LOG_F(INFO, "Attempting Move Operation");
+    
     if (!isOnBoard(mv.start) || !isOnBoard(mv.end))
         return false;
     
-    LOG_F(INFO, "Moving %s from square %d to square %d", pieceNameMap.at(mv.piece).c_str(), mv.start, mv.end);
+    Piece pieceToMove = this->getPiece(mv.start);
 
-    updateFEN(mv);
+    LOG_F(INFO, "Moving %s from square %d to square %d", pieceNameMap.at(pieceToMove).c_str(), mv.start, mv.end);
+
+    updateFEN(mv, pieceToMove);
     updateValidMoves();
 
     return true;
 }
 
-void PheonixBoard::updateFEN(Move& mv)
+void PhoenixBoard::updateFEN(Move& mv, Piece& pieceToMove)
 {
     LOG_F(INFO, "Updating Board");
 
-    BitBoard pieceBoard = board[mv.piece];
+    BitBoard pieceBoard = board[pieceToMove];
     Piece captured = getPiece(mv.end);
     unsigned long long int mask = ~(static_cast<unsigned long long int>(0x1) << mv.start);
 
@@ -139,7 +158,7 @@ void PheonixBoard::updateFEN(Move& mv)
     mask = static_cast<unsigned long long int>(0x1) << mv.end;
     pieceBoard = pieceBoard | mask;
 
-    board[mv.piece] = pieceBoard;
+    board[pieceToMove] = pieceBoard;
 
     if (captured != EMPTY)
     {
@@ -150,7 +169,7 @@ void PheonixBoard::updateFEN(Move& mv)
         boardFEN.halfMoves = 0;
         boardFEN.enPassantSquare = -1;
     }
-    else if (mv.piece == WHITEPAWN || mv.piece == BLACKPAWN)
+    else if (pieceToMove == WHITEPAWN || pieceToMove == BLACKPAWN)
     {
         boardFEN.halfMoves = 0;
 
@@ -176,8 +195,10 @@ void PheonixBoard::updateFEN(Move& mv)
     }
 }
 
-void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
+void PhoenixBoard::loadBoard(const std::string& fen, std::string::const_iterator& citr)
 {
+    LOG_F(INFO, "Loading Board");
+
     uint64_t curSquare = 1;
 
     for (; citr != fen.end(); ++citr)
@@ -200,7 +221,7 @@ void PheonixBoard::loadBoard(const std::string& fen, std::string::const_iterator
     }
 }
 
-Piece PheonixBoard::getPiece(Square s) const
+Piece PhoenixBoard::getPiece(Square& s) const
 {
     uint64_t square = 1;
     square = square << s;
@@ -214,48 +235,48 @@ Piece PheonixBoard::getPiece(Square s) const
     return EMPTY;
 }
 
-BitBoard PheonixBoard::getPieceBoard(Piece boardType) const
+const BitBoard& PhoenixBoard::getPieceBoard(Piece& boardType) const
 {
     return board[boardType];
 }
 
-FEN PheonixBoard::getFenBoard() const
+FEN PhoenixBoard::getFenBoard() const
 {
     return boardFEN;
 }
 
-std::pair<bool, bool> PheonixBoard::castle(Color player) const
+const std::pair<bool, bool>& PhoenixBoard::castle(Color& player) const
 {
     return boardFEN.castlingRights.at(player);
 }
 
-bool PheonixBoard::isOnBoard(Square s) const
+bool PhoenixBoard::isOnBoard(Square& s) const
 {
     return (0 <= s && s < 64);
 }
 
-std::vector<Move> PheonixBoard::getValidMoves(Piece& p) const
+const std::vector<Move>& PhoenixBoard::getValidMoves(Piece& p) const
 {
     return validMoves.at(p);
 }
 
 // TODO: Implement Logic
-bool PheonixBoard::isInCheck(Color player) const
+bool PhoenixBoard::isInCheck(Color& player) const
 {
     return false;
 }
 
-bool PheonixBoard::isDraw() const
+bool PhoenixBoard::isDraw() const
 {
     return false;
 }
 
-void PheonixBoard::updateValidMoves()
+void PhoenixBoard::updateValidMoves()
 {
-
+    LOG_F(INFO, "Updating Valid Moves");
 }
 
-void PheonixBoard::log_board(BitBoard cur_board)
+void PhoenixBoard::log_board(BitBoard& cur_board)
 {
     uint64_t curSquare = 0x1;
 

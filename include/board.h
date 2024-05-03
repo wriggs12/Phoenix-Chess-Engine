@@ -10,35 +10,41 @@
 #include <vector>
 #include <utils.h>
 
-class PheonixBoard {
+class PhoenixBoard {
     public:
-        PheonixBoard(const std::string & = DEFAULT_POSITION);
-        ~PheonixBoard() = default;
-        PheonixBoard& operator=(const PheonixBoard &);
+        PhoenixBoard(const std::string&& = DEFAULT_POSITION);
+        PhoenixBoard(const PhoenixBoard&);
+        ~PhoenixBoard() = default;
+        PhoenixBoard& operator=(const PhoenixBoard&);
 
-        bool move(Move &);
-        BitBoard getPieceBoard(Piece) const;
+        bool move(Move&);
+        const BitBoard& getPieceBoard(Piece&) const;
         FEN getFenBoard() const;
-        bool isInCheck(Color) const;
+        Piece getPiece(Square&) const;
+
+        bool isInCheck(Color&) const;
         bool isDraw() const;
-        bool isOnBoard(Square) const;
-        std::pair<bool, bool> castle(Color) const;
-        Piece getPiece(Square) const;
+        bool isOnBoard(Square&) const;
+
+        const std::pair<bool, bool>& castle(Color&) const;
 
     private:
-        void loadFEN(const std::string &);
-        void loadBoard(const std::string &, std::string::const_iterator &);
-        void updateFEN(Move &);
+        void loadFEN(const std::string&);
+        void loadBoard(const std::string&, std::string::const_iterator&);
+
+        void updateFEN(Move&, Piece&);
         void updateValidMoves();
-        std::vector<Move> getValidMoves(Piece &) const;
+
+        const std::vector<Move>& getValidMoves(Piece&) const;
+
+        void log_board(BitBoard&);
 
     private:
         std::vector<BitBoard> board;
         FEN boardFEN;
         std::unordered_map<Piece, std::vector<Move>> validMoves;
-        void log_board(BitBoard);
 };
 
-std::ostream& operator<<(std::ostream &, const PheonixBoard &);
+std::ostream& operator<<(std::ostream&, const PhoenixBoard&);
 
 #endif

@@ -113,7 +113,6 @@ struct FEN {
 struct Move {
     Square start;
     Square end;
-    Piece piece;
 };
 
 #endif

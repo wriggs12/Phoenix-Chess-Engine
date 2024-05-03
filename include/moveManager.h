@@ -18,15 +18,15 @@ class MoveManager {
         static MoveManager *GetInstance();
 
         bool updateBoard(Move &);
-        PheonixBoard getPosition(std::vector<Move> &);
-        PheonixBoard& board();
+        PhoenixBoard getPosition(std::vector<Move> &);
+        PhoenixBoard& board();
 
     protected:
-        MoveManager() : activeBoard(PheonixBoard())
+        MoveManager() : activeBoard(PhoenixBoard())
         {
         }
         ~MoveManager() = default;
-        PheonixBoard activeBoard;
+        PhoenixBoard activeBoard;
 
     private:
         static MoveManager* moveManager_;

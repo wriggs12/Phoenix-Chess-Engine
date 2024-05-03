@@ -25,14 +25,14 @@
 //     return activeBoard.move(mv);
 // }
 
-// PheonixBoard& MoveManager::board()
+// PhoenixBoard& MoveManager::board()
 // {
 //     return activeBoard;
 // }
 
-// PheonixBoard MoveManager::getPosition(std::vector<Move>& moves)
+// PhoenixBoard MoveManager::getPosition(std::vector<Move>& moves)
 // {
-//     PheonixBoard board(activeBoard.getFenBoard());
+//     PhoenixBoard board(activeBoard.getFenBoard());
 //     for (auto mv : moves)
 //     {
 //         board.move(mv);

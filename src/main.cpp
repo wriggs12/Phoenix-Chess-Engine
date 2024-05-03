@@ -3,19 +3,14 @@
 
 int main(int argc, char* argv[])
 {
-    PheonixBoard b;
+    PhoenixBoard b;
 
-    Move m = {
+    Move m {
         8,        // Start Square
         40,       // End Square
-        WHITEPAWN // Piece
     };
 
-    std::cout << b << std::endl;
-
     b.move(m);
-
-    std::cout << b << std::endl;
 
     return 0;
 }

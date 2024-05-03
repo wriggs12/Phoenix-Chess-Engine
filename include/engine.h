@@ -9,11 +9,11 @@
 
 #include <moveManager.h>
 
-class PheonixEngine
+class PhoenixEngine
 {
     public:
-        PheonixEngine();
-        ~PheonixEngine();
+        PhoenixEngine();
+        ~PhoenixEngine();
 
     private:
 };
